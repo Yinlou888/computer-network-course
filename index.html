@@ -1,0 +1,2269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="计算机网络技术基础开放式课程网站，系统介绍计算机网络的基本概念、原理和技术，包括网络体系结构、通信协议、网络设备、网络安全等内容。">
+    <meta name="keywords" content="计算机网络,网络技术,网络基础,OSI模型,TCP/IP协议,网络安全">
+    <meta name="author" content="计算机网络技术基础课程组">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%231a56db'/%3E%3Cpath d='M50 25c-13.8 0-25 11.2-25 25s11.2 25 25 25 25-11.2 25-25-11.2-25-25-25zm0 40c-8.3 0-15-6.7-15-15s6.7-15 15-15 15 6.7 15 15-6.7 15-15 15zm5-25h-10v10h-10v-10h-10v-10h10v-10h10v10h10v10z' fill='white'/%3E%3C/svg%3E">
+    <title>计算机网络技术基础 - 开放式课程网站</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 统一的 Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1a56db',
+                        secondary: '#0e9f6e',
+                        dark: '#1e293b',
+                        light: '#f8fafc',
+                        accent: '#3b82f6',
+                        'accent-light': '#93c5fd',
+                        'accent-dark': '#1e40af'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                        'card-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.5s ease-in-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .text-shadow-lg {
+                text-shadow: 0 4px 8px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
+            }
+            .bg-gradient-blue {
+                background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            }
+            .bg-gradient-card {
+                background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            }
+            .transition-all-300 {
+                transition: all 0.3s ease;
+            }
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        }
+        
+        /* 深色模式样式 */
+        .dark {
+            --tw-bg-opacity: 1;
+            background-color: rgb(17 24 39 / var(--tw-bg-opacity));
+            --tw-text-opacity: 1;
+            color: rgb(243 244 246 / var(--tw-text-opacity));
+        }
+        
+        .dark .bg-white {
+            --tw-bg-opacity: 1;
+            background-color: rgb(31 41 55 / var(--tw-bg-opacity));
+        }
+        
+        .dark .bg-gray-50 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(31 41 55 / var(--tw-bg-opacity));
+        }
+        
+        .dark .text-gray-800 {
+            --tw-text-opacity: 1;
+            color: rgb(243 244 246 / var(--tw-text-opacity));
+        }
+        
+        .dark .text-gray-700 {
+            --tw-text-opacity: 1;
+            color: rgb(229 231 235 / var(--tw-text-opacity));
+        }
+        
+        .dark .bg-gray-200 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(75 85 99 / var(--tw-bg-opacity));
+        }
+        
+        .dark .text-gray-500 {
+            --tw-text-opacity: 1;
+            color: rgb(156 163 175 / var(--tw-text-opacity));
+        }
+        
+        .dark .border-gray-100 {
+            --tw-border-opacity: 1;
+            border-color: rgb(55 65 81 / var(--tw-border-opacity));
+        }
+        
+        .dark .bg-gradient-card {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+        }
+        
+        .dark .bg-black\/50 {
+            background-color: rgb(0 0 0 / 0.7);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen">
+    <!-- 顶部导航栏 -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <i class="fa fa-globe text-primary text-2xl"></i>
+                <h1 class="text-xl font-bold text-primary hidden sm:block">计算机网络技术基础</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <!-- 章节切换按钮 -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <button id="prev-chapter" class="p-2 rounded-full hover:bg-gray-100 transition-all-300" title="上一章">
+                        <i class="fa fa-chevron-left text-gray-600"></i>
+                    </button>
+                    <span id="current-chapter" class="text-sm font-medium text-gray-700">第1章</span>
+                    <button id="next-chapter" class="p-2 rounded-full hover:bg-gray-100 transition-all-300" title="下一章">
+                        <i class="fa fa-chevron-right text-gray-600"></i>
+                    </button>
+                </div>
+                <!-- 主题切换按钮 -->
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 transition-all-300">
+                    <i class="fa fa-moon-o text-gray-600"></i>
+                </button>
+                <!-- 移动端菜单按钮 -->
+                <button id="mobile-menu-button" class="p-2 rounded-full hover:bg-gray-100 transition-all-300 md:hidden">
+                    <i class="fa fa-bars text-gray-600"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="container mx-auto px-4 py-6 flex flex-col md:flex-row gap-6">
+        <!-- 侧边栏导航 -->
+        <aside id="sidebar" class="w-full md:w-64 bg-white rounded-lg shadow-card p-4 md:sticky md:top-20 md:self-start transition-all-300 transform md:translate-x-0 -translate-x-full md:opacity-100 opacity-0 fixed md:relative top-0 left-0 h-full z-40 overflow-y-auto">
+            <div class="flex justify-between items-center mb-6 md:hidden">
+                <h2 class="text-lg font-bold text-primary">章节导航</h2>
+                <button id="close-sidebar" class="p-2 rounded-full hover:bg-gray-100">
+                    <i class="fa fa-times text-gray-600"></i>
+                </button>
+            </div>
+            <nav>
+                <ul class="space-y-2">
+                    <li>
+                        <a href="#chapter1" class="chapter-link flex items-center p-3 rounded-lg hover:bg-blue-50 text-primary font-medium transition-all-300">
+                            <span class="w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full mr-3">1</span>
+                            <span>概述</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#chapter2" class="chapter-link flex items-center p-3 rounded-lg hover:bg-blue-50 text-primary font-medium transition-all-300">
+                            <span class="w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full mr-3">2</span>
+                            <span>物理层</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#chapter3" class="chapter-link flex items-center p-3 rounded-lg hover:bg-blue-50 text-primary font-medium transition-all-300">
+                            <span class="w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full mr-3">3</span>
+                            <span>数据链路层</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#chapter4" class="chapter-link flex items-center p-3 rounded-lg hover:bg-blue-50 text-primary font-medium transition-all-300">
+                            <span class="w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full mr-3">4</span>
+                            <span>网络层</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#chapter5" class="chapter-link flex items-center p-3 rounded-lg hover:bg-blue-50 text-primary font-medium transition-all-300">
+                            <span class="w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full mr-3">5</span>
+                            <span>运输层</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#chapter6" class="chapter-link flex items-center p-3 rounded-lg hover:bg-blue-50 text-primary font-medium transition-all-300">
+                            <span class="w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full mr-3">6</span>
+                            <span>应用层</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#chapter7" class="chapter-link flex items-center p-3 rounded-lg hover:bg-blue-50 text-primary font-medium transition-all-300">
+                            <span class="w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full mr-3">7</span>
+                            <span>互联网上的音频/视频服务</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#chapter8" class="chapter-link flex items-center p-3 rounded-lg hover:bg-blue-50 text-primary font-medium transition-all-300">
+                            <span class="w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full mr-3">8</span>
+                            <span>网络安全</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#chapter9" class="chapter-link flex items-center p-3 rounded-lg hover:bg-blue-50 text-primary font-medium transition-all-300">
+                            <span class="w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full mr-3">9</span>
+                            <span>无线网络和移动网络</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- 课程内容区 -->
+        <section class="flex-1">
+            <!-- 课程封面 -->
+            <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg animate-fade-in">
+                <img src="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/465a7f1b34f14f37853b4b2dfc538300~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867506&x-signature=coPGgXT5ofwUFRvr0gpzsJGod%2Fg%3D" 
+                     alt="计算机网络技术基础" 
+                     class="w-full h-64 object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
+                    <h1 class="text-3xl md:text-4xl font-bold text-white text-shadow-lg mb-2">计算机网络技术基础</h1>
+                    <p class="text-lg text-white/90 text-shadow">原理 · 协议 · 应用</p>
+                </div>
+            </div>
+
+            <!-- 课程简介 -->
+            <div class="bg-white rounded-xl p-6 mb-8 shadow-card animate-slide-up">
+                <h2 class="text-2xl font-bold text-primary mb-4 flex items-center">
+                    <i class="fa fa-info-circle mr-2"></i>课程简介
+                </h2>
+                <p class="text-gray-700 leading-relaxed">
+                    本课程系统介绍计算机网络的基本概念、原理和技术，包括网络体系结构、通信协议、网络设备、网络安全等内容。
+                    通过学习本课程，学生将掌握计算机网络的基本理论和实践技能，能够理解网络通信的工作原理，
+                    并具备网络规划、配置和维护的基本能力。
+                </p>
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-blue-50 rounded-lg p-4 flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                            <i class="fa fa-book text-primary"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium">9个章节</h3>
+                            <p class="text-sm text-gray-500">系统完整的知识体系</p>
+                        </div>
+                    </div>
+                    <div class="bg-blue-50 rounded-lg p-4 flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                            <i class="fa fa-video-camera text-primary"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium">27个视频</h3>
+                            <p class="text-sm text-gray-500">深入浅出的视频讲解</p>
+                        </div>
+                    </div>
+                    <div class="bg-blue-50 rounded-lg p-4 flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                            <i class="fa fa-file-powerpoint-o text-primary"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium">27个PPT</h3>
+                            <p class="text-sm text-gray-500">配套的教学课件</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 章节内容 -->
+            <!-- 第一章 -->
+            <div id="chapter1" class="chapter-content mb-12 scroll-mt-24">
+                <!-- 章节标题区 -->
+                <div class="bg-gradient-blue rounded-t-xl p-6 text-white">
+                    <div class="flex flex-wrap items-center justify-between">
+                        <div>
+                            <span class="inline-block bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium mb-2">第一章</span>
+                            <h2 class="text-2xl md:text-3xl font-bold text-shadow">概述</h2>
+                        </div>
+                        <div class="flex items-center space-x-4 mt-4 sm:mt-0">
+                            <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
+                                <i class="fa fa-video-camera mr-2"></i>
+                                <span>3个视频</span>
+                            </span>
+                            <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
+                                <i class="fa fa-file-powerpoint-o mr-2"></i>
+                                <span>3个PPT</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 章节内容卡片 -->
+                <div class="bg-white rounded-b-xl shadow-card overflow-hidden">
+                    <!-- 课程学习视频 -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-play-circle text-primary mr-2"></i>课程学习视频
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">1.1 计算机网络概述</h4>
+                            <div class="aspect-w-16 aspect-h-9 mb-4">
+                                <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                        <source src="/assets/chapter1/video/lecture.mp4" type="video/mp4">
+                                        您的浏览器不支持视频播放。
+                                    </video>
+                                    <!-- 视频占位符，使用较低的z-index确保不会永久遮挡视频 -->
+                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50 z-10" id="video-placeholder">
+                                        <div class="text-center text-white">
+                                            <i class="fa fa-film text-4xl mb-2"></i>
+                                            <p>视频加载中...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 25:30</span>
+                                    <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
+                                </div>
+                                <button class="text-primary hover:text-primary-dark transition-all-300">
+                                    <i class="fa fa-expand mr-1"></i> 全屏
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课程PDF -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-file-pdf-o text-primary mr-2"></i>课程PDF
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">1.1 计算机网络概述</h4>
+                            <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                <!-- PDF查看器 -->
+                                <iframe src="/assets/chapter1/ppt/lecture.pdf" 
+                                        title="计算机网络概述PDF" 
+                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                            </div>
+                            <div class="flex justify-end space-x-3">
+                                <a href="/assets/chapter1/ppt/lecture.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                    <i class="fa fa-download mr-2"></i> 下载PDF
+                                </a>
+                                <a href="/assets/chapter1/ppt/lecture.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center">
+                                    <i class="fa fa-file-powerpoint-o mr-2"></i> 下载PPT
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课后习题视频 -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-pencil-square-o text-primary mr-2"></i>课后习题视频
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">1.1 计算机网络概述 - 习题讲解</h4>
+                            <div class="aspect-w-16 aspect-h-9 mb-4">
+                                <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                        <source src="/assets/chapter1/video/exercise.mp4" type="video/mp4">
+                                        您的浏览器不支持视频播放。
+                                    </video>
+                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50" id="exercise-video-placeholder">
+                                        <div class="text-center text-white">
+                                            <i class="fa fa-film text-4xl mb-2"></i>
+                                            <p>视频加载中...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 15:45</span>
+                                    <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
+                                </div>
+                                <button class="text-primary hover:text-primary-dark transition-all-300">
+                                    <i class="fa fa-expand mr-1"></i> 全屏
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课后习题PDF -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-file-pdf-o text-primary mr-2"></i>课后习题PDF
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">1.1 计算机网络概述 - 习题</h4>
+                            <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                <!-- PDF查看器 -->
+                                <iframe src="/assets/chapter1/ppt/exercise.pdf" 
+                                        title="计算机网络概述习题PDF" 
+                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                            </div>
+                            <div class="flex justify-end space-x-3">
+                                <a href="/assets/chapter1/ppt/exercise.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                    <i class="fa fa-download mr-2"></i> 下载习题PDF
+                                </a>
+                                <a href="/assets/chapter1/ppt/exercise.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center">
+                                    <i class="fa fa-file-powerpoint-o mr-2"></i> 下载习题PPT
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 作业视频+PPT -->
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-tasks text-primary mr-2"></i>作业视频+PPT
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- 作业视频 -->
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">第一章 作业讲解</h4>
+                                <div class="aspect-w-16 aspect-h-9 mb-4">
+                                    <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                        <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                            <source src="/assets/chapter1/video/homework.mp4" type="video/mp4">
+                                            您的浏览器不支持视频播放。
+                                        </video>
+                                        <div class="absolute inset-0 flex items-center justify-center bg-black/50" id="homework-video-placeholder">
+                                            <div class="text-center text-white">
+                                                <i class="fa fa-film text-4xl mb-2"></i>
+                                                <p>视频加载中...</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <span><i class="fa fa-clock-o mr-1"></i> 20:15</span>
+                                    </div>
+                                    <button class="text-primary hover:text-primary-dark transition-all-300">
+                                        <i class="fa fa-expand mr-1"></i> 全屏
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 作业PDF -->
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">第一章 作业</h4>
+                                <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                    <!-- PDF查看器 -->
+                                    <iframe src="/assets/chapter1/ppt/homework.pdf" 
+                                            title="第一章作业PDF" 
+                                            class="w-full h-[300px] rounded-lg border border-gray-200"></iframe>
+                                </div>
+                                <div class="flex justify-end space-x-3">
+                                    <a href="/assets/chapter1/ppt/homework.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                        <i class="fa fa-download mr-2"></i> 下载作业PDF
+                                    </a>
+                                    <a href="/assets/chapter1/ppt/homework.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center">
+                                        <i class="fa fa-file-powerpoint-o mr-2"></i> 下载作业PPT
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第二章 -->
+            <div id="chapter2" class="chapter-content mb-12 scroll-mt-24">
+                <!-- 章节标题区 -->
+                <div class="bg-gradient-blue rounded-t-xl p-6 text-white">
+                    <div class="flex flex-wrap items-center justify-between">
+                        <div>
+                            <span class="inline-block bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium mb-2">第二章</span>
+                            <h2 class="text-2xl md:text-3xl font-bold text-shadow">物理层</h2>
+                        </div>
+                        <div class="flex items-center space-x-4 mt-4 sm:mt-0">
+                            <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
+                                <i class="fa fa-video-camera mr-2"></i>
+                                <span>3个视频</span>
+                            </span>
+                            <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
+                                <i class="fa fa-file-powerpoint-o mr-2"></i>
+                                <span>3个PPT</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 章节内容卡片 -->
+                <div class="bg-white rounded-b-xl shadow-card overflow-hidden">
+                    <!-- 课程学习视频 -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-play-circle text-primary mr-2"></i>课程学习视频
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">2.1 OSI参考模型概述</h4>
+                            <div class="aspect-w-16 aspect-h-9 mb-4">
+                                <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                        <source src="/assets/chapter2/video/lecture.mp4" type="video/mp4">
+                                        您的浏览器不支持视频播放。
+                                    </video>
+                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                        <div class="text-center text-white">
+                                            <i class="fa fa-film text-4xl mb-2"></i>
+                                            <p>视频加载中...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 28:15</span>
+                                    <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
+                                </div>
+                                <button class="text-primary hover:text-primary-dark transition-all-300">
+                                    <i class="fa fa-expand mr-1"></i> 全屏
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课程PDF -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-file-pdf-o text-primary mr-2"></i>课程PDF
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">2.1 OSI参考模型概述</h4>
+                            <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                <!-- PDF查看器 -->
+                                <iframe src="/assets/chapter2/ppt/lecture.pdf" 
+                                        title="OSI参考模型概述PDF" 
+                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                            </div>
+                            <div class="flex justify-end space-x-3">
+                                <a href="/assets/chapter2/ppt/lecture.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                    <i class="fa fa-download mr-2"></i> 下载PDF
+                                </a>
+                                <a href="/assets/chapter2/ppt/lecture.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center">
+                                    <i class="fa fa-file-powerpoint-o mr-2"></i> 下载PPT
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课后习题视频 -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-pencil-square-o text-primary mr-2"></i>课后习题视频
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">2.1 OSI参考模型概述 - 习题讲解</h4>
+                            <div class="aspect-w-16 aspect-h-9 mb-4">
+                                <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                        <source src="/assets/chapter2/video/exercise.mp4" type="video/mp4">
+                                        您的浏览器不支持视频播放。
+                                    </video>
+                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                        <div class="text-center text-white">
+                                            <i class="fa fa-film text-4xl mb-2"></i>
+                                            <p>视频加载中...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 18:20</span>
+                                    <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
+                                </div>
+                                <button class="text-primary hover:text-primary-dark transition-all-300">
+                                    <i class="fa fa-expand mr-1"></i> 全屏
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课后习题PDF -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-file-pdf-o text-primary mr-2"></i>课后习题PDF
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">2.1 OSI参考模型概述 - 习题</h4>
+                            <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                <!-- PDF查看器 -->
+                                <iframe src="/assets/chapter2/ppt/exercise.pdf" 
+                                        title="OSI参考模型概述习题PDF" 
+                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                            </div>
+                            <div class="flex justify-end space-x-3">
+                                <a href="/assets/chapter2/ppt/exercise.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                    <i class="fa fa-download mr-2"></i> 下载习题PDF
+                                </a>
+                                <a href="/assets/chapter2/ppt/exercise.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center">
+                                    <i class="fa fa-file-powerpoint-o mr-2"></i> 下载习题PPT
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 作业视频+PPT -->
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-tasks text-primary mr-2"></i>作业视频+PPT
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- 作业视频 -->
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">第二章 作业讲解</h4>
+                                <div class="aspect-w-16 aspect-h-9 mb-4">
+                                    <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                        <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                            <source src="/assets/chapter2/video/homework.mp4" type="video/mp4">
+                                            您的浏览器不支持视频播放。
+                                        </video>
+                                        <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                            <div class="text-center text-white">
+                                                <i class="fa fa-film text-4xl mb-2"></i>
+                                                <p>视频加载中...</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <span><i class="fa fa-clock-o mr-1"></i> 22:30</span>
+                                    </div>
+                                    <button class="text-primary hover:text-primary-dark transition-all-300">
+                                        <i class="fa fa-expand mr-1"></i> 全屏
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 作业PPT -->
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <h4 class="font-medium text-gray-800 mb-3">第二章 作业</h4>
+                        <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                            <!-- PDF查看器 -->
+                            <iframe src="/assets/chapter2/ppt/homework.pdf" 
+                                    title="第二章作业PPT" 
+                                    class="w-full h-[300px] rounded-lg border border-gray-200"></iframe>
+                        </div>
+                        <div class="flex justify-end space-x-3">
+                            <a href="/assets/chapter2/ppt/homework.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                <i class="fa fa-download mr-2"></i> 下载作业PDF
+                            </a>
+                            <a href="/assets/chapter2/ppt/homework.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center">
+                                <i class="fa fa-file-powerpoint-o mr-2"></i> 下载作业PPT
+                            </a>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第三章 -->
+            <div id="chapter3" class="chapter-content mb-12 scroll-mt-24">
+                <!-- 章节标题区 -->
+                <div class="bg-gradient-blue rounded-t-xl p-6 text-white">
+                    <div class="flex flex-wrap items-center justify-between">
+                        <div>
+                            <span class="inline-block bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium mb-2">第三章</span>
+                            <h2 class="text-2xl md:text-3xl font-bold text-shadow">数据链路层</h2>
+                        </div>
+                        <div class="flex items-center space-x-4 mt-4 sm:mt-0">
+                            <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
+                                <i class="fa fa-video-camera mr-2"></i>
+                                <span>3个视频</span>
+                            </span>
+                            <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
+                                <i class="fa fa-file-powerpoint-o mr-2"></i>
+                                <span>3个PPT</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 章节内容卡片 -->
+                <div class="bg-white rounded-b-xl shadow-card overflow-hidden">
+                    <!-- 课程学习视频 -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-play-circle text-primary mr-2"></i>课程学习视频
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">3.1 TCP/IP协议概述</h4>
+                            <div class="aspect-w-16 aspect-h-9 mb-4">
+                                <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                        <source src="/assets/chapter3/video/lecture.mp4" type="video/mp4">
+                                        您的浏览器不支持视频播放。
+                                    </video>
+                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                        <div class="text-center text-white">
+                                            <i class="fa fa-film text-4xl mb-2"></i>
+                                            <p>视频加载中...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 30:20</span>
+                                    <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
+                                </div>
+                                <button class="text-primary hover:text-primary-dark transition-all-300">
+                                    <i class="fa fa-expand mr-1"></i> 全屏
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课程PPT -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-file-powerpoint-o text-primary mr-2"></i>课程PPT
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">3.1 TCP/IP协议概述</h4>
+                            <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                <!-- PDF查看器 -->
+                                <iframe src="/assets/chapter3/ppt/lecture.pdf" 
+                                        title="TCP/IP协议概述PPT" 
+                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="/assets/chapter3/ppt/lecture.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                    <i class="fa fa-download mr-2"></i> 下载PDF
+                                </a>
+                                <a href="/assets/chapter3/ppt/lecture.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center ml-2">
+                                    <i class="fa fa-file-powerpoint-o mr-2"></i> 下载PPT
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课后习题视频 -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-pencil-square-o text-primary mr-2"></i>课后习题视频
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">3.1 TCP/IP协议概述 - 习题讲解</h4>
+                            <div class="aspect-w-16 aspect-h-9 mb-4">
+                                <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                        <source src="/assets/chapter3/video/exercise.mp4" type="video/mp4">
+                                        您的浏览器不支持视频播放。
+                                    </video>
+                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                        <div class="text-center text-white">
+                                            <i class="fa fa-film text-4xl mb-2"></i>
+                                            <p>视频加载中...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 17:30</span>
+                                    <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
+                                </div>
+                                <button class="text-primary hover:text-primary-dark transition-all-300">
+                                    <i class="fa fa-expand mr-1"></i> 全屏
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课后习题PPT -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-file-powerpoint-o text-primary mr-2"></i>课后习题PPT
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">3.1 TCP/IP协议概述 - 习题</h4>
+                            <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                <!-- PDF查看器 -->
+                                <iframe src="/assets/chapter3/ppt/exercise.pdf" 
+                                        title="TCP/IP协议概述习题PPT" 
+                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="/assets/chapter3/ppt/exercise.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                    <i class="fa fa-download mr-2"></i> 下载习题PDF
+                                </a>
+                                <a href="/assets/chapter3/ppt/exercise.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center ml-2">
+                                    <i class="fa fa-file-powerpoint-o mr-2"></i> 下载习题PPT
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 作业视频+PPT -->
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-tasks text-primary mr-2"></i>作业视频+PPT
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- 作业视频 -->
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">第三章 作业讲解</h4>
+                                <div class="aspect-w-16 aspect-h-9 mb-4">
+                                    <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                        <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                            <source src="/assets/chapter3/video/homework.mp4" type="video/mp4">
+                                            您的浏览器不支持视频播放。
+                                        </video>
+                                        <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                            <div class="text-center text-white">
+                                                <i class="fa fa-film text-4xl mb-2"></i>
+                                                <p>视频加载中...</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <span><i class="fa fa-clock-o mr-1"></i> 23:45</span>
+                                    </div>
+                                    <button class="text-primary hover:text-primary-dark transition-all-300">
+                                        <i class="fa fa-expand mr-1"></i> 全屏
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 作业PPT -->
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">第三章 作业</h4>
+                                <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                    <!-- PDF查看器 -->
+                                    <iframe src="/assets/chapter3/ppt/homework.pdf" 
+                                            title="第三章作业PPT" 
+                                            class="w-full h-[300px] rounded-lg border border-gray-200"></iframe>
+                                </div>
+                                <div class="flex justify-end space-x-3">
+                                    <a href="/assets/chapter3/ppt/homework.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                        <i class="fa fa-download mr-2"></i> 下载作业PDF
+                                    </a>
+                                    <a href="/assets/chapter3/ppt/homework.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center ml-2">
+                                        <i class="fa fa-file-powerpoint-o mr-2"></i> 下载作业PPT
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第四章 -->
+            <div id="chapter4" class="chapter-content mb-12 scroll-mt-24">
+                <!-- 章节标题区 -->
+                <div class="bg-gradient-blue rounded-t-xl p-6 text-white">
+                    <div class="flex flex-wrap items-center justify-between">
+                        <div>
+                            <span class="inline-block bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium mb-2">第四章</span>
+                            <h2 class="text-2xl md:text-3xl font-bold text-shadow">网络层</h2>
+                        </div>
+                        <div class="flex items-center space-x-4 mt-4 sm:mt-0">
+                            <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
+                                <i class="fa fa-video-camera mr-2"></i>
+                                <span>3个视频</span>
+                            </span>
+                            <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
+                                <i class="fa fa-file-powerpoint-o mr-2"></i>
+                                <span>3个PPT</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 章节内容卡片 -->
+                <div class="bg-white rounded-b-xl shadow-card overflow-hidden">
+                    <!-- 课程学习视频 -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-play-circle text-primary mr-2"></i>课程学习视频
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">4.1 物理层基础</h4>
+                            <div class="aspect-w-16 aspect-h-9 mb-4">
+                                <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                        <source src="/assets/chapter4/video/lecture.mp4" type="video/mp4">
+                                        您的浏览器不支持视频播放。
+                                    </video>
+                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                        <div class="text-center text-white">
+                                            <i class="fa fa-film text-4xl mb-2"></i>
+                                            <p>视频加载中...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 27:15</span>
+                                    <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
+                                </div>
+                                <button class="text-primary hover:text-primary-dark transition-all-300">
+                                    <i class="fa fa-expand mr-1"></i> 全屏
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课程PPT -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-file-powerpoint-o text-primary mr-2"></i>课程PPT
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">4.1 物理层基础</h4>
+                            <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                <!-- PDF查看器 -->
+                                <iframe src="/assets/chapter4/ppt/lecture.pdf" 
+                                        title="物理层基础PPT" 
+                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="/assets/chapter4/ppt/lecture.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                    <i class="fa fa-download mr-2"></i> 下载PDF
+                                </a>
+                                <a href="/assets/chapter4/ppt/lecture.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center ml-2">
+                                    <i class="fa fa-file-powerpoint-o mr-2"></i> 下载PPT
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课后习题视频 -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-pencil-square-o text-primary mr-2"></i>课后习题视频
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">4.1 物理层基础 - 习题讲解</h4>
+                            <div class="aspect-w-16 aspect-h-9 mb-4">
+                                <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                        <source src="/assets/chapter4/video/exercise.mp4" type="video/mp4">
+                                        您的浏览器不支持视频播放。
+                                    </video>
+                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                        <div class="text-center text-white">
+                                            <i class="fa fa-film text-4xl mb-2"></i>
+                                            <p>视频加载中...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 16:20</span>
+                                    <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
+                                </div>
+                                <button class="text-primary hover:text-primary-dark transition-all-300">
+                                    <i class="fa fa-expand mr-1"></i> 全屏
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课后习题PPT -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-file-powerpoint-o text-primary mr-2"></i>课后习题PPT
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">4.1 物理层基础 - 习题</h4>
+                            <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                <!-- PDF查看器 -->
+                                <iframe src="/assets/chapter4/ppt/exercise.pdf" 
+                                        title="物理层基础习题PPT" 
+                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="/assets/chapter4/ppt/exercise.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                    <i class="fa fa-download mr-2"></i> 下载习题PDF
+                                </a>
+                                <a href="/assets/chapter4/ppt/exercise.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center ml-2">
+                                    <i class="fa fa-file-powerpoint-o mr-2"></i> 下载习题PPT
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 作业视频+PPT -->
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-tasks text-primary mr-2"></i>作业视频+PPT
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- 作业视频 -->
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">第四章 作业讲解</h4>
+                                <div class="aspect-w-16 aspect-h-9 mb-4">
+                                    <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                        <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                            <source src="/assets/chapter4/video/homework.mp4" type="video/mp4">
+                                            您的浏览器不支持视频播放。
+                                        </video>
+                                        <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                            <div class="text-center text-white">
+                                                <i class="fa fa-film text-4xl mb-2"></i>
+                                                <p>视频加载中...</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <span><i class="fa fa-clock-o mr-1"></i> 21:30</span>
+                                    </div>
+                                    <button class="text-primary hover:text-primary-dark transition-all-300">
+                                        <i class="fa fa-expand mr-1"></i> 全屏
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 作业PPT -->
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">第四章 作业</h4>
+                                <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                    <!-- PDF查看器 -->
+                                    <iframe src="/assets/chapter4/ppt/homework.pdf" 
+                                            title="第四章作业PPT" 
+                                            class="w-full h-[300px] rounded-lg border border-gray-200"></iframe>
+                                </div>
+                                <div class="flex justify-end space-x-3">
+                                    <a href="/assets/chapter4/ppt/homework.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                        <i class="fa fa-download mr-2"></i> 下载作业PDF
+                                    </a>
+                                    <a href="/assets/chapter4/ppt/homework.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center ml-2">
+                                        <i class="fa fa-file-powerpoint-o mr-2"></i> 下载作业PPT
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第五章 -->
+            <div id="chapter5" class="chapter-content mb-12 scroll-mt-24">
+                <!-- 章节标题区 -->
+                <div class="bg-gradient-blue rounded-t-xl p-6 text-white">
+                    <div class="flex flex-wrap items-center justify-between">
+                        <div>
+                            <span class="inline-block bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium mb-2">第五章</span>
+                            <h2 class="text-2xl md:text-3xl font-bold text-shadow">运输层</h2>
+                        </div>
+                        <div class="flex items-center space-x-4 mt-4 sm:mt-0">
+                            <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
+                                <i class="fa fa-video-camera mr-2"></i>
+                                <span>3个视频</span>
+                            </span>
+                            <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
+                                <i class="fa fa-file-powerpoint-o mr-2"></i>
+                                <span>3个PPT</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 章节内容卡片 -->
+                <div class="bg-white rounded-b-xl shadow-card overflow-hidden">
+                    <!-- 课程学习视频 -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-play-circle text-primary mr-2"></i>课程学习视频
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">5.1 网络层基础</h4>
+                            <div class="aspect-w-16 aspect-h-9 mb-4">
+                                <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                        <source src="/assets/chapter5/video/lecture.mp4" type="video/mp4">
+                                        您的浏览器不支持视频播放。
+                                    </video>
+                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                        <div class="text-center text-white">
+                                            <i class="fa fa-film text-4xl mb-2"></i>
+                                            <p>视频加载中...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 32:40</span>
+                                    <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
+                                </div>
+                                <button class="text-primary hover:text-primary-dark transition-all-300">
+                                    <i class="fa fa-expand mr-1"></i> 全屏
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课程PPT -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-file-powerpoint-o text-primary mr-2"></i>课程PPT
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">5.1 网络层基础</h4>
+                            <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                <!-- PDF查看器 -->
+                                <iframe src="/assets/chapter5/ppt/lecture.pdf" 
+                                        title="网络层基础PPT" 
+                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="/assets/chapter5/ppt/lecture.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                    <i class="fa fa-download mr-2"></i> 下载PDF
+                                </a>
+                                <a href="/assets/chapter5/ppt/lecture.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center ml-2">
+                                    <i class="fa fa-file-powerpoint-o mr-2"></i> 下载PPT
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课后习题视频 -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-pencil-square-o text-primary mr-2"></i>课后习题视频
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">5.1 网络层基础 - 习题讲解</h4>
+                            <div class="aspect-w-16 aspect-h-9 mb-4">
+                                <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                        <source src="/assets/chapter5/video/exercise.mp4" type="video/mp4">
+                                        您的浏览器不支持视频播放。
+                                    </video>
+                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                        <div class="text-center text-white">
+                                            <i class="fa fa-film text-4xl mb-2"></i>
+                                            <p>视频加载中...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 18:45</span>
+                                    <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
+                                </div>
+                                <button class="text-primary hover:text-primary-dark transition-all-300">
+                                    <i class="fa fa-expand mr-1"></i> 全屏
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课后习题PPT -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-file-powerpoint-o text-primary mr-2"></i>课后习题PPT
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">5.1 网络层基础 - 习题</h4>
+                            <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                <!-- PDF查看器 -->
+                                <iframe src="/assets/chapter5/ppt/exercise.pdf" 
+                                        title="网络层基础习题PPT" 
+                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="/assets/chapter5/ppt/exercise.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                    <i class="fa fa-download mr-2"></i> 下载习题PDF
+                                </a>
+                                <a href="/assets/chapter5/ppt/exercise.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center ml-2">
+                                    <i class="fa fa-file-powerpoint-o mr-2"></i> 下载习题PPT
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 作业视频+PPT -->
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-tasks text-primary mr-2"></i>作业视频+PPT
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- 作业视频 -->
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">第五章 作业讲解</h4>
+                                <div class="aspect-w-16 aspect-h-9 mb-4">
+                                    <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                        <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                            <source src="/assets/chapter5/video/homework.mp4" type="video/mp4">
+                                            您的浏览器不支持视频播放。
+                                        </video>
+                                        <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                            <div class="text-center text-white">
+                                                <i class="fa fa-film text-4xl mb-2"></i>
+                                                <p>视频加载中...</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <span><i class="fa fa-clock-o mr-1"></i> 24:15</span>
+                                    </div>
+                                    <button class="text-primary hover:text-primary-dark transition-all-300">
+                                        <i class="fa fa-expand mr-1"></i> 全屏
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 作业PPT -->
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">第五章 作业</h4>
+                                <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                    <!-- PDF查看器 -->
+                                    <iframe src="/assets/chapter5/ppt/homework.pdf" 
+                                            title="第五章作业PPT" 
+                                            class="w-full h-[300px] rounded-lg border border-gray-200"></iframe>
+                                </div>
+                                <div class="flex justify-end space-x-3">
+                                    <a href="/assets/chapter5/ppt/homework.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                        <i class="fa fa-download mr-2"></i> 下载作业PDF
+                                    </a>
+                                    <a href="/assets/chapter5/ppt/homework.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center ml-2">
+                                        <i class="fa fa-file-powerpoint-o mr-2"></i> 下载作业PPT
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第六章 -->
+            <div id="chapter6" class="chapter-content mb-12 scroll-mt-24">
+                <!-- 章节标题区 -->
+                <div class="bg-gradient-blue rounded-t-xl p-6 text-white">
+                    <div class="flex flex-wrap items-center justify-between">
+                        <div>
+                            <span class="inline-block bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium mb-2">第六章</span>
+                            <h2 class="text-2xl md:text-3xl font-bold text-shadow">应用层</h2>
+                        </div>
+                        <div class="flex items-center space-x-4 mt-4 sm:mt-0">
+                            <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
+                                <i class="fa fa-video-camera mr-2"></i>
+                                <span>3个视频</span>
+                            </span>
+                            <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
+                                <i class="fa fa-file-powerpoint-o mr-2"></i>
+                                <span>3个PPT</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 章节内容卡片 -->
+                <div class="bg-white rounded-b-xl shadow-card overflow-hidden">
+                    <!-- 课程学习视频 -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-play-circle text-primary mr-2"></i>课程学习视频
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">6.1 TCP协议</h4>
+                            <div class="aspect-w-16 aspect-h-9 mb-4">
+                                <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                        <source src="/assets/chapter6/video/lecture.mp4" type="video/mp4">
+                                        您的浏览器不支持视频播放。
+                                    </video>
+                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                        <div class="text-center text-white">
+                                            <i class="fa fa-film text-4xl mb-2"></i>
+                                            <p>视频加载中...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 35:25</span>
+                                    <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
+                                </div>
+                                <button class="text-primary hover:text-primary-dark transition-all-300">
+                                    <i class="fa fa-expand mr-1"></i> 全屏
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课程PPT -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-file-powerpoint-o text-primary mr-2"></i>课程PPT
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">6.1 TCP协议</h4>
+                            <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                <!-- PDF查看器 -->
+                                <iframe src="/assets/chapter6/ppt/lecture.pdf" 
+                                        title="TCP协议PPT" 
+                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="/assets/chapter6/ppt/lecture.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                    <i class="fa fa-download mr-2"></i> 下载PDF
+                                </a>
+                                <a href="/assets/chapter6/ppt/lecture.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center ml-2">
+                                    <i class="fa fa-file-powerpoint-o mr-2"></i> 下载PPT
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课后习题视频 -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-pencil-square-o text-primary mr-2"></i>课后习题视频
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">6.1 TCP协议 - 习题讲解</h4>
+                            <div class="aspect-w-16 aspect-h-9 mb-4">
+                                <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                        <source src="/assets/chapter6/video/exercise.mp4" type="video/mp4">
+                                        您的浏览器不支持视频播放。
+                                    </video>
+                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                        <div class="text-center text-white">
+                                            <i class="fa fa-film text-4xl mb-2"></i>
+                                            <p>视频加载中...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 20:10</span>
+                                    <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
+                                </div>
+                                <button class="text-primary hover:text-primary-dark transition-all-300">
+                                    <i class="fa fa-expand mr-1"></i> 全屏
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课后习题PPT -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-file-powerpoint-o text-primary mr-2"></i>课后习题PPT
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">6.1 TCP协议 - 习题</h4>
+                            <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                <!-- PDF查看器 -->
+                                <iframe src="/assets/chapter6/ppt/exercise.pdf" 
+                                        title="TCP协议习题PPT" 
+                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="/assets/chapter6/ppt/exercise.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                    <i class="fa fa-download mr-2"></i> 下载习题PDF
+                                </a>
+                                <a href="/assets/chapter6/ppt/exercise.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center ml-2">
+                                    <i class="fa fa-file-powerpoint-o mr-2"></i> 下载习题PPT
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 作业视频+PPT -->
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-tasks text-primary mr-2"></i>作业视频+PPT
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- 作业视频 -->
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">第六章 作业讲解</h4>
+                                <div class="aspect-w-16 aspect-h-9 mb-4">
+                                    <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                        <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                            <source src="/assets/chapter6/video/homework.mp4" type="video/mp4">
+                                            您的浏览器不支持视频播放。
+                                        </video>
+                                        <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                            <div class="text-center text-white">
+                                                <i class="fa fa-film text-4xl mb-2"></i>
+                                                <p>视频加载中...</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <span><i class="fa fa-clock-o mr-1"></i> 26:30</span>
+                                    </div>
+                                    <button class="text-primary hover:text-primary-dark transition-all-300">
+                                        <i class="fa fa-expand mr-1"></i> 全屏
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 作业PPT -->
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">第六章 作业</h4>
+                                <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                    <!-- PDF查看器 -->
+                                    <iframe src="/assets/chapter6/ppt/homework.pdf" 
+                                            title="第六章作业PPT" 
+                                            class="w-full h-[300px] rounded-lg border border-gray-200"></iframe>
+                                </div>
+                                <div class="flex justify-end space-x-3">
+                                    <a href="/assets/chapter6/ppt/homework.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                        <i class="fa fa-download mr-2"></i> 下载作业PDF
+                                    </a>
+                                    <a href="/assets/chapter6/ppt/homework.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center ml-2">
+                                        <i class="fa fa-file-powerpoint-o mr-2"></i> 下载作业PPT
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第七章 -->
+            <div id="chapter7" class="chapter-content mb-12 scroll-mt-24">
+                <!-- 章节标题区 -->
+                <div class="bg-gradient-blue rounded-t-xl p-6 text-white">
+                    <div class="flex flex-wrap items-center justify-between">
+                        <div>
+                            <span class="inline-block bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium mb-2">第七章</span>
+                            <h2 class="text-2xl md:text-3xl font-bold text-shadow">互联网上的音频/视频服务</h2>
+                        </div>
+                        <div class="flex items-center space-x-4 mt-4 sm:mt-0">
+                            <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
+                                <i class="fa fa-video-camera mr-2"></i>
+                                <span>3个视频</span>
+                            </span>
+                            <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
+                                <i class="fa fa-file-powerpoint-o mr-2"></i>
+                                <span>3个PPT</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 章节内容卡片 -->
+                <div class="bg-white rounded-b-xl shadow-card overflow-hidden">
+                    <!-- 课程学习视频 -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-play-circle text-primary mr-2"></i>课程学习视频
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">7.1 HTTP协议</h4>
+                            <div class="aspect-w-16 aspect-h-9 mb-4">
+                                <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                        <source src="/assets/chapter7/video/lecture.mp4" type="video/mp4">
+                                        您的浏览器不支持视频播放。
+                                    </video>
+                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                        <div class="text-center text-white">
+                                            <i class="fa fa-film text-4xl mb-2"></i>
+                                            <p>视频加载中...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 33:15</span>
+                                    <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
+                                </div>
+                                <button class="text-primary hover:text-primary-dark transition-all-300">
+                                    <i class="fa fa-expand mr-1"></i> 全屏
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课程PPT -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-file-powerpoint-o text-primary mr-2"></i>课程PPT
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">7.1 HTTP协议</h4>
+                            <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                <!-- PDF查看器 -->
+                                <iframe src="/assets/chapter7/ppt/lecture.pdf" 
+                                        title="HTTP协议PPT" 
+                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="/assets/chapter7/ppt/lecture.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                    <i class="fa fa-download mr-2"></i> 下载PDF
+                                </a>
+                                <a href="/assets/chapter7/ppt/lecture.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center ml-2">
+                                    <i class="fa fa-file-powerpoint-o mr-2"></i> 下载PPT
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课后习题视频 -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-pencil-square-o text-primary mr-2"></i>课后习题视频
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">7.1 HTTP协议 - 习题讲解</h4>
+                            <div class="aspect-w-16 aspect-h-9 mb-4">
+                                <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                        <source src="/assets/chapter7/video/exercise.mp4" type="video/mp4">
+                                        您的浏览器不支持视频播放。
+                                    </video>
+                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                        <div class="text-center text-white">
+                                            <i class="fa fa-film text-4xl mb-2"></i>
+                                            <p>视频加载中...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 19:25</span>
+                                    <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
+                                </div>
+                                <button class="text-primary hover:text-primary-dark transition-all-300">
+                                    <i class="fa fa-expand mr-1"></i> 全屏
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课后习题PPT -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-file-powerpoint-o text-primary mr-2"></i>课后习题PPT
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">7.1 HTTP协议 - 习题</h4>
+                            <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                <!-- PDF查看器 -->
+                                <iframe src="/assets/chapter7/ppt/exercise.pdf" 
+                                        title="HTTP协议习题PPT" 
+                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="/assets/chapter7/ppt/exercise.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                    <i class="fa fa-download mr-2"></i> 下载习题PDF
+                                </a>
+                                <a href="/assets/chapter7/ppt/exercise.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center ml-2">
+                                    <i class="fa fa-file-powerpoint-o mr-2"></i> 下载习题PPT
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 作业视频+PPT -->
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-tasks text-primary mr-2"></i>作业视频+PPT
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- 作业视频 -->
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">第七章 作业讲解</h4>
+                                <div class="aspect-w-16 aspect-h-9 mb-4">
+                                    <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                        <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                            <source src="/assets/chapter7/video/homework.mp4" type="video/mp4">
+                                            您的浏览器不支持视频播放。
+                                        </video>
+                                        <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                            <div class="text-center text-white">
+                                                <i class="fa fa-film text-4xl mb-2"></i>
+                                                <p>视频加载中...</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <span><i class="fa fa-clock-o mr-1"></i> 25:45</span>
+                                    </div>
+                                    <button class="text-primary hover:text-primary-dark transition-all-300">
+                                        <i class="fa fa-expand mr-1"></i> 全屏
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 作业PPT -->
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">第七章 作业</h4>
+                                <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                    <!-- PDF查看器 -->
+                                    <iframe src="/assets/chapter7/ppt/homework.pdf" 
+                                            title="第七章作业PPT" 
+                                            class="w-full h-[300px] rounded-lg border border-gray-200"></iframe>
+                                </div>
+                                <div class="flex justify-end space-x-3">
+                                    <a href="/assets/chapter7/ppt/homework.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                        <i class="fa fa-download mr-2"></i> 下载作业PDF
+                                    </a>
+                                    <a href="/assets/chapter7/ppt/homework.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center ml-2">
+                                        <i class="fa fa-file-powerpoint-o mr-2"></i> 下载作业PPT
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第八章 -->
+            <div id="chapter8" class="chapter-content mb-12 scroll-mt-24">
+                <!-- 章节标题区 -->
+                <div class="bg-gradient-blue rounded-t-xl p-6 text-white">
+                    <div class="flex flex-wrap items-center justify-between">
+                        <div>
+                            <span class="inline-block bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium mb-2">第八章</span>
+                            <h2 class="text-2xl md:text-3xl font-bold text-shadow">网络安全</h2>
+                        </div>
+                        <div class="flex items-center space-x-4 mt-4 sm:mt-0">
+                            <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
+                                <i class="fa fa-video-camera mr-2"></i>
+                                <span>3个视频</span>
+                            </span>
+                            <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
+                                <i class="fa fa-file-powerpoint-o mr-2"></i>
+                                <span>3个PPT</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 章节内容卡片 -->
+                <div class="bg-white rounded-b-xl shadow-card overflow-hidden">
+                    <!-- 课程学习视频 -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-play-circle text-primary mr-2"></i>课程学习视频
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">8.1 网络安全基础</h4>
+                            <div class="aspect-w-16 aspect-h-9 mb-4">
+                                <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                        <source src="/assets/chapter8/video/lecture.mp4" type="video/mp4">
+                                        您的浏览器不支持视频播放。
+                                    </video>
+                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                        <div class="text-center text-white">
+                                            <i class="fa fa-film text-4xl mb-2"></i>
+                                            <p>视频加载中...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 31:20</span>
+                                    <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
+                                </div>
+                                <button class="text-primary hover:text-primary-dark transition-all-300">
+                                    <i class="fa fa-expand mr-1"></i> 全屏
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课程PPT -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-file-powerpoint-o text-primary mr-2"></i>课程PPT
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">8.1 网络安全基础</h4>
+                            <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                <!-- PDF查看器 -->
+                                <iframe src="/assets/chapter8/ppt/lecture.pdf" 
+                                        title="网络安全基础PPT" 
+                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="/assets/chapter8/ppt/lecture.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                    <i class="fa fa-download mr-2"></i> 下载PDF
+                                </a>
+                                <a href="/assets/chapter8/ppt/lecture.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center ml-2">
+                                    <i class="fa fa-file-powerpoint-o mr-2"></i> 下载PPT
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课后习题视频 -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-pencil-square-o text-primary mr-2"></i>课后习题视频
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">8.1 网络安全基础 - 习题讲解</h4>
+                            <div class="aspect-w-16 aspect-h-9 mb-4">
+                                <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                        <source src="/assets/chapter8/video/exercise.mp4" type="video/mp4">
+                                        您的浏览器不支持视频播放。
+                                    </video>
+                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                        <div class="text-center text-white">
+                                            <i class="fa fa-film text-4xl mb-2"></i>
+                                            <p>视频加载中...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 18:15</span>
+                                    <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
+                                </div>
+                                <button class="text-primary hover:text-primary-dark transition-all-300">
+                                    <i class="fa fa-expand mr-1"></i> 全屏
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课后习题PPT -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-file-powerpoint-o text-primary mr-2"></i>课后习题PPT
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">8.1 网络安全基础 - 习题</h4>
+                            <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                <!-- PDF查看器 -->
+                                <iframe src="/assets/chapter8/ppt/exercise.pdf" 
+                                        title="网络安全基础习题PPT" 
+                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="/assets/chapter8/ppt/exercise.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                    <i class="fa fa-download mr-2"></i> 下载习题PDF
+                                </a>
+                                <a href="/assets/chapter8/ppt/exercise.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center ml-2">
+                                    <i class="fa fa-file-powerpoint-o mr-2"></i> 下载习题PPT
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 作业视频+PPT -->
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-tasks text-primary mr-2"></i>作业视频+PPT
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- 作业视频 -->
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">第八章 作业讲解</h4>
+                                <div class="aspect-w-16 aspect-h-9 mb-4">
+                                    <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                        <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                            <source src="/assets/chapter8/video/homework.mp4" type="video/mp4">
+                                            您的浏览器不支持视频播放。
+                                        </video>
+                                        <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                            <div class="text-center text-white">
+                                                <i class="fa fa-film text-4xl mb-2"></i>
+                                                <p>视频加载中...</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <span><i class="fa fa-clock-o mr-1"></i> 24:30</span>
+                                    </div>
+                                    <button class="text-primary hover:text-primary-dark transition-all-300">
+                                        <i class="fa fa-expand mr-1"></i> 全屏
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 作业PPT -->
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">第八章 作业</h4>
+                                <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                    <!-- PDF查看器 -->
+                                    <iframe src="/assets/chapter8/ppt/homework.pdf" 
+                                            title="第八章作业PPT" 
+                                            class="w-full h-[300px] rounded-lg border border-gray-200"></iframe>
+                                </div>
+                                <div class="flex justify-end space-x-3">
+                                    <a href="/assets/chapter8/ppt/homework.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                        <i class="fa fa-download mr-2"></i> 下载作业PDF
+                                    </a>
+                                    <a href="/assets/chapter8/ppt/homework.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center ml-2">
+                                        <i class="fa fa-file-powerpoint-o mr-2"></i> 下载作业PPT
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第九章 -->
+            <div id="chapter9" class="chapter-content mb-12 scroll-mt-24">
+                <!-- 章节标题区 -->
+                <div class="bg-gradient-blue rounded-t-xl p-6 text-white">
+                    <div class="flex flex-wrap items-center justify-between">
+                        <div>
+                            <span class="inline-block bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium mb-2">第九章</span>
+                            <h2 class="text-2xl md:text-3xl font-bold text-shadow">无线网络和移动网络</h2>
+                        </div>
+                        <div class="flex items-center space-x-4 mt-4 sm:mt-0">
+                            <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
+                                <i class="fa fa-video-camera mr-2"></i>
+                                <span>3个视频</span>
+                            </span>
+                            <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
+                                <i class="fa fa-file-powerpoint-o mr-2"></i>
+                                <span>3个PPT</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 章节内容卡片 -->
+                <div class="bg-white rounded-b-xl shadow-card overflow-hidden">
+                    <!-- 课程学习视频 -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-play-circle text-primary mr-2"></i>课程学习视频
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">9.1 网络管理概述</h4>
+                            <div class="aspect-w-16 aspect-h-9 mb-4">
+                                <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                        <source src="/assets/chapter9/video/lecture.mp4" type="video/mp4">
+                                        您的浏览器不支持视频播放。
+                                    </video>
+                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                        <div class="text-center text-white">
+                                            <i class="fa fa-film text-4xl mb-2"></i>
+                                            <p>视频加载中...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 29:45</span>
+                                    <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
+                                </div>
+                                <button class="text-primary hover:text-primary-dark transition-all-300">
+                                    <i class="fa fa-expand mr-1"></i> 全屏
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课程PPT -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-file-powerpoint-o text-primary mr-2"></i>课程PPT
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">9.1 网络管理概述</h4>
+                            <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                <!-- PDF查看器 -->
+                                <iframe src="/assets/chapter9/ppt/lecture.pdf" 
+                                        title="网络管理概述PPT" 
+                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="/assets/chapter9/ppt/lecture.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                    <i class="fa fa-download mr-2"></i> 下载PDF
+                                </a>
+                                <a href="/assets/chapter9/ppt/lecture.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center ml-2">
+                                    <i class="fa fa-file-powerpoint-o mr-2"></i> 下载PPT
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课后习题视频 -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-pencil-square-o text-primary mr-2"></i>课后习题视频
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">9.1 网络管理概述 - 习题讲解</h4>
+                            <div class="aspect-w-16 aspect-h-9 mb-4">
+                                <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                        <source src="/assets/chapter9/video/exercise.mp4" type="video/mp4">
+                                        您的浏览器不支持视频播放。
+                                    </video>
+                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                        <div class="text-center text-white">
+                                            <i class="fa fa-film text-4xl mb-2"></i>
+                                            <p>视频加载中...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 16:50</span>
+                                    <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
+                                </div>
+                                <button class="text-primary hover:text-primary-dark transition-all-300">
+                                    <i class="fa fa-expand mr-1"></i> 全屏
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 课后习题PPT -->
+                    <div class="p-6 border-b border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-file-powerpoint-o text-primary mr-2"></i>课后习题PPT
+                        </h3>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-800 mb-3">9.1 网络管理概述 - 习题</h4>
+                            <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                <!-- PDF查看器 -->
+                                <iframe src="/assets/chapter9/ppt/exercise.pdf" 
+                                        title="网络管理概述习题PPT" 
+                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href="/assets/chapter9/ppt/exercise.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                    <i class="fa fa-download mr-2"></i> 下载习题PDF
+                                </a>
+                                <a href="/assets/chapter9/ppt/exercise.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center ml-2">
+                                    <i class="fa fa-file-powerpoint-o mr-2"></i> 下载习题PPT
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 作业视频+PPT -->
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fa fa-tasks text-primary mr-2"></i>作业视频+PPT
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- 作业视频 -->
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">第九章 作业讲解</h4>
+                                <div class="aspect-w-16 aspect-h-9 mb-4">
+                                    <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+                                        <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
+                                            <source src="/assets/chapter9/video/homework.mp4" type="video/mp4">
+                                            您的浏览器不支持视频播放。
+                                        </video>
+                                        <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                                            <div class="text-center text-white">
+                                                <i class="fa fa-film text-4xl mb-2"></i>
+                                                <p>视频加载中...</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <span><i class="fa fa-clock-o mr-1"></i> 22:45</span>
+                                    </div>
+                                    <button class="text-primary hover:text-primary-dark transition-all-300">
+                                        <i class="fa fa-expand mr-1"></i> 全屏
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 作业PPT -->
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">第九章 作业</h4>
+                                <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                                    <!-- PDF查看器 -->
+                                    <iframe src="/assets/chapter9/ppt/homework.pdf" 
+                                            title="第九章作业PPT" 
+                                            class="w-full h-[300px] rounded-lg border border-gray-200"></iframe>
+                                </div>
+                                <div class="flex justify-end space-x-3">
+                                    <a href="/assets/chapter9/ppt/homework.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
+                                        <i class="fa fa-download mr-2"></i> 下载作业PDF
+                                    </a>
+                                    <a href="/assets/chapter9/ppt/homework.pptx" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-all-300 flex items-center ml-2">
+                                        <i class="fa fa-file-powerpoint-o mr-2"></i> 下载作业PPT
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" class="fixed bottom-6 right-6 bg-primary hover:bg-primary-dark text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all-300 opacity-0 invisible">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+
+    <!-- 遮罩层 -->
+    <div id="overlay" class="fixed inset-0 bg-black/50 z-30 hidden md:hidden"></div>
+
+    <!-- JavaScript -->
+    <script>
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 侧边栏控制
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const closeSidebarButton = document.getElementById('close-sidebar');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+
+            mobileMenuButton.addEventListener('click', function() {
+                sidebar.classList.remove('-translate-x-full', 'opacity-0');
+                overlay.classList.remove('hidden');
+                document.body.classList.add('overflow-hidden');
+            });
+
+            function closeSidebar() {
+                sidebar.classList.add('-translate-x-full', 'opacity-0');
+                overlay.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            }
+
+            closeSidebarButton.addEventListener('click', closeSidebar);
+            overlay.addEventListener('click', closeSidebar);
+
+            // 章节链接点击事件
+            const chapterLinks = document.querySelectorAll('.chapter-link');
+            chapterLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (window.innerWidth < 768) {
+                        closeSidebar();
+                    }
+                });
+            });
+
+            // 返回顶部按钮
+            const backToTopButton = document.getElementById('back-to-top');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.remove('opacity-0', 'invisible');
+                    backToTopButton.classList.add('opacity-100', 'visible');
+                } else {
+                    backToTopButton.classList.add('opacity-0', 'invisible');
+                    backToTopButton.classList.remove('opacity-100', 'visible');
+                }
+            });
+
+            backToTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // 视频播放器控制 - 修复版
+            // 移除所有视频占位符，确保视频元素完全可见
+            // 选择所有包含视频的容器内的占位符元素
+            const videoContainers = document.querySelectorAll('.aspect-w-16.aspect-h-9');
+            
+            videoContainers.forEach(container => {
+                const placeholder = container.querySelector('div.absolute.inset-0');
+                const video = container.querySelector('video');
+                
+                if (placeholder && video) {
+                    // 强制视频元素显示
+                    video.style.display = 'block';
+                    video.style.opacity = '1';
+                    video.style.visibility = 'visible';
+                    video.style.position = 'relative';
+                    video.style.zIndex = '100';
+                    
+                    // 移除占位符，完全消除遮挡问题
+                    placeholder.remove();
+                    
+                    // 调试信息
+                    console.log('视频元素:', video);
+                    console.log('视频源:', Array.from(video.querySelectorAll('source')).map(s => s.src));
+                    
+                    // 尝试加载视频
+                    video.load();
+                }
+            });
+
+            // 深色/浅色模式切换
+            const themeToggle = document.getElementById('theme-toggle');
+            const htmlElement = document.documentElement;
+            
+            // 检查本地存储中的主题偏好
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                htmlElement.classList.add('dark');
+                themeToggle.innerHTML = '<i class="fa fa-sun-o text-yellow-400"></i>';
+            }
+            
+            themeToggle.addEventListener('click', function() {
+                htmlElement.classList.toggle('dark');
+                
+                if (htmlElement.classList.contains('dark')) {
+                    localStorage.setItem('theme', 'dark');
+                    themeToggle.innerHTML = '<i class="fa fa-sun-o text-yellow-400"></i>';
+                } else {
+                    localStorage.setItem('theme', 'light');
+                    themeToggle.innerHTML = '<i class="fa fa-moon-o text-gray-600"></i>';
+                }
+            });
+
+            // 键盘快捷键支持 - 按下i键切换主题
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'i') {
+                    // 执行主题切换逻辑
+                    htmlElement.classList.toggle('dark');
+                    
+                    if (htmlElement.classList.contains('dark')) {
+                        localStorage.setItem('theme', 'dark');
+                        themeToggle.innerHTML = '<i class="fa fa-sun-o text-yellow-400"></i>';
+                    } else {
+                        localStorage.setItem('theme', 'light');
+                        themeToggle.innerHTML = '<i class="fa fa-moon-o text-gray-600"></i>';
+                    }
+                }
+            });
+
+            // 章节切换功能
+            const prevChapterBtn = document.getElementById('prev-chapter');
+            const nextChapterBtn = document.getElementById('next-chapter');
+            const currentChapterSpan = document.getElementById('current-chapter');
+            const chapterContents = document.querySelectorAll('.chapter-content');
+            let currentChapter = 1;
+            const totalChapters = chapterContents.length;
+
+            // 更新当前章节显示
+            function updateCurrentChapterDisplay() {
+                currentChapterSpan.textContent = `第${currentChapter}章`;
+            }
+
+            // 滚动到指定章节
+            function scrollToChapter(chapterNum) {
+                const chapter = document.getElementById(`chapter${chapterNum}`);
+                if (chapter) {
+                    chapter.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    currentChapter = chapterNum;
+                    updateCurrentChapterDisplay();
+                }
+            }
+
+            // 上一章按钮点击事件
+            prevChapterBtn.addEventListener('click', function() {
+                if (currentChapter > 1) {
+                    scrollToChapter(currentChapter - 1);
+                }
+            });
+
+            // 下一章按钮点击事件
+            nextChapterBtn.addEventListener('click', function() {
+                if (currentChapter < totalChapters) {
+                    scrollToChapter(currentChapter + 1);
+                }
+            });
+
+            // 监听滚动事件，自动更新当前章节
+            window.addEventListener('scroll', function() {
+                const scrollPosition = window.scrollY + 100;
+                
+                // 从后往前检查，找到当前可见的章节
+                for (let i = totalChapters; i >= 1; i--) {
+                    const chapter = document.getElementById(`chapter${i}`);
+                    if (chapter && chapter.offsetTop <= scrollPosition) {
+                        currentChapter = i;
+                        updateCurrentChapterDisplay();
+                        break;
+                    }
+                }
+            });
+
+            // 下载按钮点击事件
+            const downloadButtons = document.querySelectorAll('button:has(.fa-download)');
+            downloadButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    alert('文件下载功能模拟：文件已开始下载');
+                });
+            });
+
+            // 全屏按钮点击事件
+            const fullscreenButtons = document.querySelectorAll('button:has(.fa-expand)');
+            fullscreenButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const videoContainer = this.closest('.bg-gray-50').querySelector('.aspect-w-16');
+                    const video = videoContainer.querySelector('video');
+                    
+                    if (video.requestFullscreen) {
+                        video.requestFullscreen();
+                    } else if (video.mozRequestFullScreen) {
+                        video.mozRequestFullScreen();
+                    } else if (video.webkitRequestFullscreen) {
+                        video.webkitRequestFullscreen();
+                    } else if (video.msRequestFullscreen) {
+                        video.msRequestFullscreen();
+                    }
+                });
+            });
+
+            // 章节内容动画
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fade-in');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            chapterContents.forEach(chapter => {
+                observer.observe(chapter);
+            });
+        });
+    </script>
+</body>
+</html>
