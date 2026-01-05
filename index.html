@@ -203,11 +203,48 @@
             /* 优化PDF查看器在移动端的显示 */
             iframe {
                 max-width: 100%;
+                display: block;
+                margin: 0 auto;
+                border: none;
+                pointer-events: auto;
             }
             
             /* 为PDF iframe设置合适的移动端高度 */
             iframe[src$=".pdf"] {
-                height: 400px;
+                height: 600px;
+                min-height: 500px;
+                width: 100%;
+                max-width: 100%;
+                position: relative;
+                z-index: 1;
+                background-color: white;
+            }
+            
+            /* 确保PDF容器正常显示 */
+            div:has(> iframe[src$=".pdf"]) {
+                position: relative;
+                width: 100%;
+                height: auto;
+                overflow: hidden;
+                margin-bottom: 1rem;
+                padding: 0;
+            }
+            
+            /* 优化PDF下载链接样式，确保只有点击才会触发下载 */
+            a[href$=".pdf"][download] {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                user-select: none;
+                -webkit-tap-highlight-color: transparent;
+                position: relative;
+                z-index: 2;
+            }
+            
+            /* 禁止自动触发下载 */
+            a[href$=".pdf"][download]:not(:active) {
+                pointer-events: auto;
             }
             
             /* 优化视频播放器在移动端的显示 */
