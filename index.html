@@ -78,6 +78,28 @@
                 -ms-overflow-style: none;
                 scrollbar-width: none;
             }
+            /* 视频播放器样式优化 */
+            .video-container {
+                border-radius: 0.5rem;
+                overflow: hidden;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+                transition: all 0.3s ease;
+            }
+            .video-container:hover {
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+                transform: translateY(-2px);
+            }
+            .video-container iframe {
+                border-radius: 0.5rem;
+                transition: all 0.3s ease;
+            }
+            /* 深色模式下的视频容器样式 */
+            .dark .video-container {
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+            }
+            .dark .video-container:hover {
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+            }
         }
         
         /* 深色模式样式 */
@@ -129,6 +151,59 @@
         
         .dark .bg-black\/50 {
             background-color: rgb(0 0 0 / 0.7);
+        }
+        
+        /* 移动端优化样式 */
+        @media (max-width: 767px) {
+            /* 调整标题大小 */
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            h2 {
+                font-size: 1.75rem;
+            }
+            
+            h3 {
+                font-size: 1.25rem;
+            }
+            
+            /* 调整容器内边距 */
+            .container {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+            
+            /* 优化章节卡片内边距 */
+            .chapter-content .p-6 {
+                padding: 1rem;
+            }
+            
+            /* 优化视频播放器在移动端的显示 */
+            .video-container {
+                border-radius: 0.375rem;
+            }
+            
+            /* 优化移动端的按钮大小 */
+            button {
+                padding: 0.5rem;
+            }
+            
+            /* 优化移动端的导航项间距 */
+            .chapter-link {
+                padding: 0.75rem;
+            }
+            
+            /* 确保所有元素在移动端都能正常显示 */
+            img, iframe, video {
+                max-width: 100%;
+                height: auto;
+            }
+            
+            /* 优化移动端的文本行高 */
+            p {
+                line-height: 1.6;
+            }
         }
     </style>
 </head>
@@ -271,7 +346,7 @@
                             <i class="fa fa-video-camera text-primary"></i>
                         </div>
                         <div>
-                            <h3 class="font-medium">27个视频</h3>
+                            <h3 class="font-medium">视频</h3>
                             <p class="text-sm text-gray-500">深入浅出的视频讲解</p>
                         </div>
                     </div>
@@ -280,7 +355,7 @@
                             <i class="fa fa-file-powerpoint-o text-primary"></i>
                         </div>
                         <div>
-                            <h3 class="font-medium">27个PPT</h3>
+                            <h3 class="font-medium">PPT</h3>
                             <p class="text-sm text-gray-500">配套的教学课件</p>
                         </div>
                     </div>
@@ -319,19 +394,19 @@
                         </h3>
                         <div class="bg-gray-50 rounded-lg p-4">
                             <h4 class="font-medium text-gray-800 mb-3">1.1 计算机网络概述</h4>
-                            <div class="aspect-w-16 aspect-h-9 mb-4">
+                            <div class="aspect-w-16 aspect-h-9 mb-4 video-container">
                                 <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                        <source src="assets/chapter1/video/lecture.mp4" type="video/mp4">
-                                        您的浏览器不支持视频播放。
-                                    </video>
-                                    <!-- 视频占位符，使用较低的z-index确保不会永久遮挡视频 -->
-                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50 z-10" id="video-placeholder">
-                                        <div class="text-center text-white">
-                                            <i class="fa fa-film text-4xl mb-2"></i>
-                                            <p>视频加载中...</p>
-                                        </div>
-                                    </div>
+                                    <iframe 
+                                        class="w-full h-full" 
+                                        src="https://player.bilibili.com/player.html?aid=115840787678596&bvid=BV1q4ixB4E82&cid=35198927842&p=1&isOutside=true&danmaku=0" 
+                                        scrolling="no" 
+                                        border="0" 
+                                        frameborder="no" 
+                                        framespacing="0" 
+                                        allowfullscreen="true"
+                                        title="1.1 计算机网络概述"
+                                        referrerpolicy="no-referrer-when-downgrade"
+                                    ></iframe>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center">
@@ -377,18 +452,9 @@
                         </h3>
                         <div class="bg-gray-50 rounded-lg p-4">
                             <h4 class="font-medium text-gray-800 mb-3">1.1 计算机网络概述 - 习题讲解</h4>
-                            <div class="aspect-w-16 aspect-h-9 mb-4">
+                            <div class="aspect-w-16 aspect-h-9 mb-4 video-container">
                                 <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                        <source src="assets/chapter1/video/exercise.mp4" type="video/mp4">
-                                        您的浏览器不支持视频播放。
-                                    </video>
-                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50" id="exercise-video-placeholder">
-                                        <div class="text-center text-white">
-                                            <i class="fa fa-film text-4xl mb-2"></i>
-                                            <p>视频加载中...</p>
-                                        </div>
-                                    </div>
+                                    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840787677823&bvid=BV1q4ixB4ERw&cid=35198927671&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center">
@@ -438,16 +504,7 @@
                                 <h4 class="font-medium text-gray-800 mb-3">第一章 作业讲解</h4>
                                 <div class="aspect-w-16 aspect-h-9 mb-4">
                                     <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                        <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                            <source src="assets/chapter1/video/homework.mp4" type="video/mp4">
-                                            您的浏览器不支持视频播放。
-                                        </video>
-                                        <div class="absolute inset-0 flex items-center justify-center bg-black/50" id="homework-video-placeholder">
-                                            <div class="text-center text-white">
-                                                <i class="fa fa-film text-4xl mb-2"></i>
-                                                <p>视频加载中...</p>
-                                            </div>
-                                        </div>
+                                        <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840787679227&bvid=BV1q4ixB4EBh&cid=35198927773&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
                                     </div>
                                 </div>
                                 <div class="flex justify-between items-center">
@@ -514,18 +571,18 @@
                         </h3>
                         <div class="bg-gray-50 rounded-lg p-4">
                             <h4 class="font-medium text-gray-800 mb-3">2.1 OSI参考模型概述</h4>
-                            <div class="aspect-w-16 aspect-h-9 mb-4">
+                            <div class="aspect-w-16 aspect-h-9 mb-4 video-container">
                                 <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                        <source src="assets/chapter2/video/lecture.mp4" type="video/mp4">
-                                        您的浏览器不支持视频播放。
-                                    </video>
-                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
-                                        <div class="text-center text-white">
-                                            <i class="fa fa-film text-4xl mb-2"></i>
-                                            <p>视频加载中...</p>
-                                        </div>
-                                    </div>
+                                    <iframe 
+                                        class="w-full h-full object-contain" 
+                                        src="//player.bilibili.com/player.html?isOutside=true&aid=115840787678596&bvid=BV1q4ixB4E82&cid=35198927842&p=1" 
+                                        scrolling="no" 
+                                        border="0" 
+                                        frameborder="no" 
+                                        framespacing="0" 
+                                        allowfullscreen="true"
+                                        title="2.1 OSI参考模型概述"
+                                    ></iframe>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center">
@@ -573,16 +630,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">2.1 OSI参考模型概述 - 习题讲解</h4>
                             <div class="aspect-w-16 aspect-h-9 mb-4">
                                 <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                        <source src="assets/chapter2/video/exercise.mp4" type="video/mp4">
-                                        您的浏览器不支持视频播放。
-                                    </video>
-                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
-                                        <div class="text-center text-white">
-                                            <i class="fa fa-film text-4xl mb-2"></i>
-                                            <p>视频加载中...</p>
-                                        </div>
-                                    </div>
+                                    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840804455084&bvid=BV1vhixB9Ey7&cid=35199058785&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center">
@@ -632,16 +680,7 @@
                                 <h4 class="font-medium text-gray-800 mb-3">第二章 作业讲解</h4>
                                 <div class="aspect-w-16 aspect-h-9 mb-4">
                                     <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                        <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                            <source src="assets/chapter2/video/homework.mp4" type="video/mp4">
-                                            您的浏览器不支持视频播放。
-                                        </video>
-                                        <div class="absolute inset-0 flex items-center justify-center bg-black/50">
-                                            <div class="text-center text-white">
-                                                <i class="fa fa-film text-4xl mb-2"></i>
-                                                <p>视频加载中...</p>
-                                            </div>
-                                        </div>
+                                        <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840804454857&bvid=BV1vhixB9EBM&cid=35198929361&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
                                     </div>
                                 </div>
                                 <div class="flex justify-between items-center">
@@ -710,16 +749,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">3.1 TCP/IP协议概述</h4>
                             <div class="aspect-w-16 aspect-h-9 mb-4">
                                 <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                        <source src="assets/chapter3/video/lecture.mp4" type="video/mp4">
-                                        您的浏览器不支持视频播放。
-                                    </video>
-                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
-                                        <div class="text-center text-white">
-                                            <i class="fa fa-film text-4xl mb-2"></i>
-                                            <p>视频加载中...</p>
-                                        </div>
-                                    </div>
+                                    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840838075500&bvid=BV1FpixBcEN2&cid=35199124087&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center">
@@ -767,16 +797,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">3.1 TCP/IP协议概述 - 习题讲解</h4>
                             <div class="aspect-w-16 aspect-h-9 mb-4">
                                 <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                        <source src="assets/chapter3/video/exercise.mp4" type="video/mp4">
-                                        您的浏览器不支持视频播放。
-                                    </video>
-                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
-                                        <div class="text-center text-white">
-                                            <i class="fa fa-film text-4xl mb-2"></i>
-                                            <p>视频加载中...</p>
-                                        </div>
-                                    </div>
+                                    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840821233461&bvid=BV1i8ixBsEL1&cid=35199060944&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center">
@@ -826,16 +847,7 @@
                                 <h4 class="font-medium text-gray-800 mb-3">第三章 作业讲解</h4>
                                 <div class="aspect-w-16 aspect-h-9 mb-4">
                                     <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                        <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                            <source src="assets/chapter3/video/homework.mp4" type="video/mp4">
-                                            您的浏览器不支持视频播放。
-                                        </video>
-                                        <div class="absolute inset-0 flex items-center justify-center bg-black/50">
-                                            <div class="text-center text-white">
-                                                <i class="fa fa-film text-4xl mb-2"></i>
-                                                <p>视频加载中...</p>
-                                            </div>
-                                        </div>
+                                        <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840821233771&bvid=BV1v8ixBsEkm&cid=35199061780&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
                                     </div>
                                 </div>
                                 <div class="flex justify-between items-center">
@@ -904,16 +916,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">4.1 物理层基础</h4>
                             <div class="aspect-w-16 aspect-h-9 mb-4">
                                 <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                        <source src="assets/chapter4/video/lecture.mp4" type="video/mp4">
-                                        您的浏览器不支持视频播放。
-                                    </video>
-                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
-                                        <div class="text-center text-white">
-                                            <i class="fa fa-film text-4xl mb-2"></i>
-                                            <p>视频加载中...</p>
-                                        </div>
-                                    </div>
+                                    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840854788413&bvid=BV16nixBhETP&cid=35199191059&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center">
@@ -961,16 +964,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">4.1 物理层基础 - 习题讲解</h4>
                             <div class="aspect-w-16 aspect-h-9 mb-4">
                                 <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                        <source src="assets/chapter4/video/exercise.mp4" type="video/mp4">
-                                        您的浏览器不支持视频播放。
-                                    </video>
-                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
-                                        <div class="text-center text-white">
-                                            <i class="fa fa-film text-4xl mb-2"></i>
-                                            <p>视频加载中...</p>
-                                        </div>
-                                    </div>
+                                    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840838010782&bvid=BV1zpixBFEUT&cid=35199189595&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center">
@@ -1020,16 +1014,7 @@
                                 <h4 class="font-medium text-gray-800 mb-3">第四章 作业讲解</h4>
                                 <div class="aspect-w-16 aspect-h-9 mb-4">
                                     <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                        <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                            <source src="assets/chapter4/video/homework.mp4" type="video/mp4">
-                                            您的浏览器不支持视频播放。
-                                        </video>
-                                        <div class="absolute inset-0 flex items-center justify-center bg-black/50">
-                                            <div class="text-center text-white">
-                                                <i class="fa fa-film text-4xl mb-2"></i>
-                                                <p>视频加载中...</p>
-                                            </div>
-                                        </div>
+                                        <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840838011343&bvid=BV1zpixBFEJm&cid=35199190507&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
                                     </div>
                                 </div>
                                 <div class="flex justify-between items-center">
@@ -1098,16 +1083,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">5.1 网络层基础</h4>
                             <div class="aspect-w-16 aspect-h-9 mb-4">
                                 <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                        <source src="assets/chapter5/video/lecture.mp4" type="video/mp4">
-                                        您的浏览器不支持视频播放。
-                                    </video>
-                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
-                                        <div class="text-center text-white">
-                                            <i class="fa fa-film text-4xl mb-2"></i>
-                                            <p>视频加载中...</p>
-                                        </div>
-                                    </div>
+                                    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840854788601&bvid=BV16nixBhEAr&cid=35199254751&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center">
@@ -1155,16 +1131,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">5.1 网络层基础 - 习题讲解</h4>
                             <div class="aspect-w-16 aspect-h-9 mb-4">
                                 <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                        <source src="assets/chapter5/video/exercise.mp4" type="video/mp4">
-                                        您的浏览器不支持视频播放。
-                                    </video>
-                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
-                                        <div class="text-center text-white">
-                                            <i class="fa fa-film text-4xl mb-2"></i>
-                                            <p>视频加载中...</p>
-                                        </div>
-                                    </div>
+                                    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840905119768&bvid=BV19QisBnE68&cid=35199192884&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center">
@@ -1214,10 +1181,16 @@
                                 <h4 class="font-medium text-gray-800 mb-3">第五章 作业讲解</h4>
                                 <div class="aspect-w-16 aspect-h-9 mb-4">
                                     <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                        <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                            <source src="assets/chapter5/video/homework.mp4" type="video/mp4">
-                                            您的浏览器不支持视频播放。
-                                        </video>
+                                        <iframe 
+                                            class="w-full h-full object-contain" 
+                                            src="//player.bilibili.com/player.html?isOutside=true&aid=115840787678596&bvid=BV1q4ixB4E82&cid=35198927842&p=1" 
+                                            scrolling="no" 
+                                            border="0" 
+                                            frameborder="no" 
+                                            framespacing="0" 
+                                            allowfullscreen="true"
+                                            title="第五章 作业讲解"
+                                        ></iframe>
                                         <div class="absolute inset-0 flex items-center justify-center bg-black/50">
                                             <div class="text-center text-white">
                                                 <i class="fa fa-film text-4xl mb-2"></i>
@@ -1292,16 +1265,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">6.1 TCP协议</h4>
                             <div class="aspect-w-16 aspect-h-9 mb-4">
                                 <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                        <source src="assets/chapter6/video/lecture.mp4" type="video/mp4">
-                                        您的浏览器不支持视频播放。
-                                    </video>
-                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
-                                        <div class="text-center text-white">
-                                            <i class="fa fa-film text-4xl mb-2"></i>
-                                            <p>视频加载中...</p>
-                                        </div>
-                                    </div>
+                                    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840905119772&bvid=BV19QisBnE6e&cid=35199257919&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center">
@@ -1349,16 +1313,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">6.1 TCP协议 - 习题讲解</h4>
                             <div class="aspect-w-16 aspect-h-9 mb-4">
                                 <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                        <source src="assets/chapter6/video/exercise.mp4" type="video/mp4">
-                                        您的浏览器不支持视频播放。
-                                    </video>
-                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
-                                        <div class="text-center text-white">
-                                            <i class="fa fa-film text-4xl mb-2"></i>
-                                            <p>视频加载中...</p>
-                                        </div>
-                                    </div>
+                                    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840871565092&bvid=BV1BsixBZExc&cid=35199257203&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center">
@@ -1408,16 +1363,7 @@
                                 <h4 class="font-medium text-gray-800 mb-3">第六章 作业讲解</h4>
                                 <div class="aspect-w-16 aspect-h-9 mb-4">
                                     <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                        <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                            <source src="assets/chapter6/video/homework.mp4" type="video/mp4">
-                                            您的浏览器不支持视频播放。
-                                        </video>
-                                        <div class="absolute inset-0 flex items-center justify-center bg-black/50">
-                                            <div class="text-center text-white">
-                                                <i class="fa fa-film text-4xl mb-2"></i>
-                                                <p>视频加载中...</p>
-                                            </div>
-                                        </div>
+                                        <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840871565352&bvid=BV1qsixBZEXR&cid=35199258009&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
                                     </div>
                                 </div>
                                 <div class="flex justify-between items-center">
@@ -1484,18 +1430,18 @@
                         </h3>
                         <div class="bg-gray-50 rounded-lg p-4">
                             <h4 class="font-medium text-gray-800 mb-3">7.1 HTTP协议</h4>
-                            <div class="aspect-w-16 aspect-h-9 mb-4">
+                            <div class="aspect-w-16 aspect-h-9 mb-4 video-container">
                                 <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                        <source src="assets/chapter7/video/lecture.mp4" type="video/mp4">
-                                        您的浏览器不支持视频播放。
-                                    </video>
-                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
-                                        <div class="text-center text-white">
-                                            <i class="fa fa-film text-4xl mb-2"></i>
-                                            <p>视频加载中...</p>
-                                        </div>
-                                    </div>
+                                    <iframe 
+                                        class="w-full h-full object-contain" 
+                                        src="//player.bilibili.com/player.html?isOutside=true&aid=115840905380366&bvid=BV1eQisBJEhV&cid=35199321111&p=1" 
+                                        scrolling="no" 
+                                        border="0" 
+                                        frameborder="no" 
+                                        framespacing="0" 
+                                        allowfullscreen="true"
+                                        title="7.1 HTTP协议"
+                                    ></iframe>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center">
@@ -1543,16 +1489,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">7.1 HTTP协议 - 习题讲解</h4>
                             <div class="aspect-w-16 aspect-h-9 mb-4">
                                 <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                        <source src="assets/chapter7/video/exercise.mp4" type="video/mp4">
-                                        您的浏览器不支持视频播放。
-                                    </video>
-                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
-                                        <div class="text-center text-white">
-                                            <i class="fa fa-film text-4xl mb-2"></i>
-                                            <p>视频加载中...</p>
-                                        </div>
-                                    </div>
+                                    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840905118755&bvid=BV1RQisBnEFP&cid=35199320640&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center">
@@ -1602,16 +1539,7 @@
                                 <h4 class="font-medium text-gray-800 mb-3">第七章 作业讲解</h4>
                                 <div class="aspect-w-16 aspect-h-9 mb-4">
                                     <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                        <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                            <source src="assets/chapter7/video/homework.mp4" type="video/mp4">
-                                            您的浏览器不支持视频播放。
-                                        </video>
-                                        <div class="absolute inset-0 flex items-center justify-center bg-black/50">
-                                            <div class="text-center text-white">
-                                                <i class="fa fa-film text-4xl mb-2"></i>
-                                                <p>视频加载中...</p>
-                                            </div>
-                                        </div>
+                                        <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840905380366&bvid=BV1eQisBJEhV&cid=35199321111&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
                                     </div>
                                 </div>
                                 <div class="flex justify-between items-center">
@@ -1680,16 +1608,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">8.1 网络安全基础</h4>
                             <div class="aspect-w-16 aspect-h-9 mb-4">
                                 <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                        <source src="assets/chapter8/video/lecture.mp4" type="video/mp4">
-                                        您的浏览器不支持视频播放。
-                                    </video>
-                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
-                                        <div class="text-center text-white">
-                                            <i class="fa fa-film text-4xl mb-2"></i>
-                                            <p>视频加载中...</p>
-                                        </div>
-                                    </div>
+                                    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840888341853&bvid=BV1BWixBbEo1&cid=35199323535&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center">
@@ -1737,16 +1656,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">8.1 网络安全基础 - 习题讲解</h4>
                             <div class="aspect-w-16 aspect-h-9 mb-4">
                                 <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                        <source src="assets/chapter8/video/exercise.mp4" type="video/mp4">
-                                        您的浏览器不支持视频播放。
-                                    </video>
-                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
-                                        <div class="text-center text-white">
-                                            <i class="fa fa-film text-4xl mb-2"></i>
-                                            <p>视频加载中...</p>
-                                        </div>
-                                    </div>
+                                    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840888407064&bvid=BV1fWixBbEpJ&cid=35199323025&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center">
@@ -1796,16 +1706,7 @@
                                 <h4 class="font-medium text-gray-800 mb-3">第八章 作业讲解</h4>
                                 <div class="aspect-w-16 aspect-h-9 mb-4">
                                     <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                        <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                            <source src="assets/chapter8/video/homework.mp4" type="video/mp4">
-                                            您的浏览器不支持视频播放。
-                                        </video>
-                                        <div class="absolute inset-0 flex items-center justify-center bg-black/50">
-                                            <div class="text-center text-white">
-                                                <i class="fa fa-film text-4xl mb-2"></i>
-                                                <p>视频加载中...</p>
-                                            </div>
-                                        </div>
+                                        <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840888341853&bvid=BV1BWixBbEo1&cid=35199323535&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
                                     </div>
                                 </div>
                                 <div class="flex justify-between items-center">
@@ -1874,16 +1775,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">9.1 网络管理概述</h4>
                             <div class="aspect-w-16 aspect-h-9 mb-4">
                                 <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                        <source src="assets/chapter9/video/lecture.mp4" type="video/mp4">
-                                        您的浏览器不支持视频播放。
-                                    </video>
-                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
-                                        <div class="text-center text-white">
-                                            <i class="fa fa-film text-4xl mb-2"></i>
-                                            <p>视频加载中...</p>
-                                        </div>
-                                    </div>
+                                    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840888407197&bvid=BV1fWixBbEng&cid=35199386536&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center">
@@ -1931,16 +1823,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">9.1 网络管理概述 - 习题讲解</h4>
                             <div class="aspect-w-16 aspect-h-9 mb-4">
                                 <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                    <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                        <source src="assets/chapter9/video/exercise.mp4" type="video/mp4">
-                                        您的浏览器不支持视频播放。
-                                    </video>
-                                    <div class="absolute inset-0 flex items-center justify-center bg-black/50">
-                                        <div class="text-center text-white">
-                                            <i class="fa fa-film text-4xl mb-2"></i>
-                                            <p>视频加载中...</p>
-                                        </div>
-                                    </div>
+                                    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840888342900&bvid=BV1BWixBbEzU&cid=35199385985&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center">
@@ -1990,16 +1873,7 @@
                                 <h4 class="font-medium text-gray-800 mb-3">第九章 作业讲解</h4>
                                 <div class="aspect-w-16 aspect-h-9 mb-4">
                                     <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                        <video class="w-full h-full object-contain" controls poster="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1b5012269d5842b8af926cfe72ca4e61~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867514&x-signature=WixzdDvlBZEMX2o4gArymjNoDPw%3D">
-                                            <source src="assets/chapter9/video/homework.mp4" type="video/mp4">
-                                            您的浏览器不支持视频播放。
-                                        </video>
-                                        <div class="absolute inset-0 flex items-center justify-center bg-black/50">
-                                            <div class="text-center text-white">
-                                                <i class="fa fa-film text-4xl mb-2"></i>
-                                                <p>视频加载中...</p>
-                                            </div>
-                                        </div>
+                                        <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840888407197&bvid=BV1fWixBbEng&cid=35199386536&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
                                     </div>
                                 </div>
                                 <div class="flex justify-between items-center">
@@ -2054,6 +1928,7 @@
             const closeSidebarButton = document.getElementById('close-sidebar');
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('overlay');
+            const chapterLinks = document.querySelectorAll('.chapter-link');
 
             mobileMenuButton.addEventListener('click', function() {
                 sidebar.classList.remove('-translate-x-full', 'opacity-0');
@@ -2069,15 +1944,23 @@
 
             closeSidebarButton.addEventListener('click', closeSidebar);
             overlay.addEventListener('click', closeSidebar);
-
-            // 章节链接点击事件
-            const chapterLinks = document.querySelectorAll('.chapter-link');
+            
+            // 移动端点击章节链接后关闭侧边栏
             chapterLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
+                link.addEventListener('click', function() {
                     if (window.innerWidth < 768) {
                         closeSidebar();
                     }
                 });
+            });
+            
+            // 监听窗口大小变化，确保在大屏幕上侧边栏正常显示
+            window.addEventListener('resize', function() {
+                if (window.innerWidth >= 768) {
+                    sidebar.classList.remove('-translate-x-full', 'opacity-0');
+                    overlay.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                }
             });
 
             // 返回顶部按钮
@@ -2100,34 +1983,71 @@
                 });
             });
 
-            // 视频播放器控制 - 修复版
-            // 移除所有视频占位符，确保视频元素完全可见
-            // 选择所有包含视频的容器内的占位符元素
+            // 视频播放器控制 - B站iframe优化版
+            // 选择所有包含视频的容器
             const videoContainers = document.querySelectorAll('.aspect-w-16.aspect-h-9');
             
-            videoContainers.forEach(container => {
-                const placeholder = container.querySelector('div.absolute.inset-0');
-                const video = container.querySelector('video');
-                
-                if (placeholder && video) {
-                    // 强制视频元素显示
-                    video.style.display = 'block';
-                    video.style.opacity = '1';
-                    video.style.visibility = 'visible';
-                    video.style.position = 'relative';
-                    video.style.zIndex = '100';
+            // 优化视频播放器尺寸，使其适应窗口
+            function optimizeVideoPlayers() {
+                videoContainers.forEach(container => {
+                    // 添加视频容器样式类
+                    container.classList.add('video-container');
                     
-                    // 移除占位符，完全消除遮挡问题
-                    placeholder.remove();
+                    const placeholder = container.querySelector('div.absolute.inset-0');
+                    const iframe = container.querySelector('iframe');
                     
-                    // 调试信息
-                    console.log('视频元素:', video);
-                    console.log('视频源:', Array.from(video.querySelectorAll('source')).map(s => s.src));
+                    if (placeholder) {
+                        // 移除占位符，完全消除遮挡问题
+                        placeholder.remove();
+                    }
                     
-                    // 尝试加载视频
-                    video.load();
-                }
-            });
+                    if (iframe) {
+                        // 确保B站iframe正确显示
+                        iframe.classList.add('w-full', 'h-full');
+                        iframe.setAttribute('title', iframe.closest('.bg-gray-50').querySelector('h4').textContent);
+                        
+                        // 添加必要的B站iframe参数
+                        let src = iframe.src;
+                        // 确保使用完整的https协议
+                        if (!src.startsWith('http')) {
+                            src = 'https:' + src;
+                        }
+                        // 添加必要的参数
+                        if (!src.includes('isOutside=true')) {
+                            src += (src.includes('?') ? '&' : '?') + 'isOutside=true';
+                        }
+                        if (!src.includes('danmaku=')) {
+                            src += (src.includes('?') ? '&' : '?') + 'danmaku=0';
+                        }
+                        // 更新iframe的src
+                        iframe.src = src;
+                        
+                        // 确保iframe允许全屏
+                        iframe.setAttribute('allowfullscreen', 'true');
+                        iframe.setAttribute('scrolling', 'no');
+                        iframe.setAttribute('border', '0');
+                        iframe.setAttribute('frameborder', 'no');
+                        iframe.setAttribute('framespacing', '0');
+                        iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+                        
+                        // 确保iframe适应容器大小
+                        iframe.style.width = '100%';
+                        iframe.style.height = '100%';
+                    }
+                });
+            }
+            
+            // 初始化视频播放器
+            optimizeVideoPlayers();
+            
+            // 监听窗口大小变化，确保视频播放器始终适应窗口
+            window.addEventListener('resize', optimizeVideoPlayers);
+            
+            // 监听全屏状态变化
+            document.addEventListener('fullscreenchange', optimizeVideoPlayers);
+            document.addEventListener('webkitfullscreenchange', optimizeVideoPlayers);
+            document.addEventListener('mozfullscreenchange', optimizeVideoPlayers);
+            document.addEventListener('MSFullscreenChange', optimizeVideoPlayers);
 
             // 深色/浅色模式切换
             const themeToggle = document.getElementById('theme-toggle');
@@ -2229,21 +2149,31 @@
                 });
             });
 
-            // 全屏按钮点击事件
+            // 全屏按钮点击事件 - 支持iframe
             const fullscreenButtons = document.querySelectorAll('button:has(.fa-expand)');
             fullscreenButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     const videoContainer = this.closest('.bg-gray-50').querySelector('.aspect-w-16');
-                    const video = videoContainer.querySelector('video');
+                    const iframe = videoContainer.querySelector('iframe');
+                    const container = videoContainer;
                     
-                    if (video.requestFullscreen) {
-                        video.requestFullscreen();
-                    } else if (video.mozRequestFullScreen) {
-                        video.mozRequestFullScreen();
-                    } else if (video.webkitRequestFullscreen) {
-                        video.webkitRequestFullscreen();
-                    } else if (video.msRequestFullscreen) {
-                        video.msRequestFullscreen();
+                    // 尝试全屏iframe，如果失败则全屏容器
+                    if (iframe.requestFullscreen) {
+                        iframe.requestFullscreen();
+                    } else if (iframe.mozRequestFullScreen) {
+                        iframe.mozRequestFullScreen();
+                    } else if (iframe.webkitRequestFullscreen) {
+                        iframe.webkitRequestFullscreen();
+                    } else if (iframe.msRequestFullscreen) {
+                        iframe.msRequestFullscreen();
+                    } else if (container.requestFullscreen) {
+                        container.requestFullscreen();
+                    } else if (container.mozRequestFullScreen) {
+                        container.mozRequestFullScreen();
+                    } else if (container.webkitRequestFullscreen) {
+                        container.webkitRequestFullscreen();
+                    } else if (container.msRequestFullscreen) {
+                        container.msRequestFullscreen();
                     }
                 });
             });
