@@ -12,6 +12,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- PDF.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js"></script>
     <!-- 统一的 Tailwind 配置 -->
     <script>
         tailwind.config = {
@@ -77,6 +80,49 @@
             .scrollbar-hide {
                 -ms-overflow-style: none;
                 scrollbar-width: none;
+            }
+            /* PDF.js Viewer Styles */
+            .pdf-container {
+                position: relative;
+                width: 100%;
+                height: auto;
+                overflow: hidden;
+                border-radius: 0.5rem;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            }
+            .pdf-canvas {
+                display: block;
+                margin: 0 auto;
+                max-width: 100%;
+                height: auto;
+            }
+            .pdf-controls {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0.75rem;
+                background-color: #f9fafb;
+                border-top: 1px solid #e5e7eb;
+            }
+            .pdf-page-info {
+                font-size: 0.875rem;
+                color: #6b7280;
+            }
+            .pdf-btn {
+                padding: 0.375rem 0.75rem;
+                border: 1px solid #d1d5db;
+                border-radius: 0.25rem;
+                background-color: white;
+                color: #374151;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+            .pdf-btn:hover {
+                background-color: #f3f4f6;
+            }
+            .pdf-btn:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
             }
             /* 视频播放器样式优化 */
             .video-container {
@@ -200,36 +246,6 @@
                 height: auto;
             }
             
-            /* 优化PDF查看器在移动端的显示 */
-            iframe {
-                max-width: 100%;
-                display: block;
-                margin: 0 auto;
-                border: none;
-                pointer-events: auto;
-            }
-            
-            /* 为PDF iframe设置合适的移动端高度 */
-            iframe[src$=".pdf"] {
-                height: 600px;
-                min-height: 500px;
-                width: 100%;
-                max-width: 100%;
-                position: relative;
-                z-index: 1;
-                background-color: white;
-            }
-            
-            /* 确保PDF容器正常显示 */
-            div:has(> iframe[src$=".pdf"]) {
-                position: relative;
-                width: 100%;
-                height: auto;
-                overflow: hidden;
-                margin-bottom: 1rem;
-                padding: 0;
-            }
-            
             /* 优化PDF下载链接样式，确保只有点击才会触发下载 */
             a[href$=".pdf"][download] {
                 display: inline-flex;
@@ -240,11 +256,6 @@
                 -webkit-tap-highlight-color: transparent;
                 position: relative;
                 z-index: 2;
-            }
-            
-            /* 禁止自动触发下载 */
-            a[href$=".pdf"][download]:not(:active) {
-                pointer-events: auto;
             }
             
             /* 优化视频播放器在移动端的显示 */
@@ -480,9 +491,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">1.1 计算机网络概述</h4>
                             <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                 <!-- PDF查看器 -->
-                                <iframe src="assets/chapter1/ppt/lecture.pdf" 
-                                        title="计算机网络概述PDF" 
-                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                                <div class="pdf-container" data-src="assets/chapter1/ppt/lecture.pdf"></div>
                             </div>
                             <div class="flex justify-end space-x-3">
                                 <a href="assets/chapter1/ppt/lecture.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -527,9 +536,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">1.1 计算机网络概述 - 习题</h4>
                             <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                 <!-- PDF查看器 -->
-                                <iframe src="assets/chapter1/ppt/exercise.pdf" 
-                                        title="计算机网络概述习题PDF" 
-                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                                <div class="pdf-container" data-src="assets/chapter1/ppt/exercise.pdf"></div>
                             </div>
                             <div class="flex justify-end space-x-3">
                                 <a href="assets/chapter1/ppt/exercise.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -570,9 +577,7 @@
                                 <h4 class="font-medium text-gray-800 mb-3">第一章 作业</h4>
                                 <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                     <!-- PDF查看器 -->
-                                    <iframe src="assets/chapter1/ppt/homework.pdf" 
-                                            title="第一章作业PDF" 
-                                            class="w-full h-[300px] rounded-lg border border-gray-200"></iframe>
+                                    <div class="pdf-container" data-src="assets/chapter1/ppt/homework.pdf"></div>
                                 </div>
                                 <div class="flex justify-end space-x-3">
                                     <a href="assets/chapter1/ppt/homework.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -653,9 +658,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">2.1 OSI参考模型概述</h4>
                             <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                 <!-- PDF查看器 -->
-                                <iframe src="assets/chapter2/ppt/lecture.pdf" 
-                                        title="OSI参考模型概述PDF" 
-                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                                <div class="pdf-container" data-src="assets/chapter2/ppt/lecture.pdf"></div>
                             </div>
                             <div class="flex justify-end space-x-3">
                                 <a href="assets/chapter2/ppt/lecture.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -700,9 +703,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">2.1 OSI参考模型概述 - 习题</h4>
                             <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                 <!-- PDF查看器 -->
-                                <iframe src="assets/chapter2/ppt/exercise.pdf" 
-                                        title="OSI参考模型概述习题PDF" 
-                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                                <div class="pdf-container" data-src="assets/chapter2/ppt/exercise.pdf"></div>
                             </div>
                             <div class="flex justify-end space-x-3">
                                 <a href="assets/chapter2/ppt/exercise.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -743,9 +744,7 @@
                         <h4 class="font-medium text-gray-800 mb-3">第二章 作业</h4>
                         <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                             <!-- PDF查看器 -->
-                            <iframe src="assets/chapter2/ppt/homework.pdf" 
-                                    title="第二章作业PPT" 
-                                    class="w-full h-[300px] rounded-lg border border-gray-200"></iframe>
+                            <div class="pdf-container" data-src="assets/chapter2/ppt/homework.pdf"></div>
                         </div>
                         <div class="flex justify-end space-x-3">
                             <a href="assets/chapter2/ppt/homework.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -817,9 +816,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">3.1 TCP/IP协议概述</h4>
                             <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                 <!-- PDF查看器 -->
-                                <iframe src="assets/chapter3/ppt/lecture.pdf" 
-                                        title="TCP/IP协议概述PPT" 
-                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                                <div class="pdf-container" data-src="assets/chapter3/ppt/lecture.pdf"></div>
                             </div>
                             <div class="flex justify-end">
                                 <a href="assets/chapter3/ppt/lecture.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -864,9 +861,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">3.1 TCP/IP协议概述 - 习题</h4>
                             <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                 <!-- PDF查看器 -->
-                                <iframe src="assets/chapter3/ppt/exercise.pdf" 
-                                        title="TCP/IP协议概述习题PPT" 
-                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                                <div class="pdf-container" data-src="assets/chapter3/ppt/exercise.pdf"></div>
                             </div>
                             <div class="flex justify-end">
                                 <a href="assets/chapter3/ppt/exercise.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -907,9 +902,7 @@
                                 <h4 class="font-medium text-gray-800 mb-3">第三章 作业</h4>
                                 <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                     <!-- PDF查看器 -->
-                                    <iframe src="assets/chapter3/ppt/homework.pdf" 
-                                            title="第三章作业PPT" 
-                                            class="w-full h-[300px] rounded-lg border border-gray-200"></iframe>
+                                    <div class="pdf-container" data-src="assets/chapter3/ppt/homework.pdf"></div>
                                 </div>
                                 <div class="flex justify-end space-x-3">
                                     <a href="assets/chapter3/ppt/homework.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -981,9 +974,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">4.1 物理层基础</h4>
                             <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                 <!-- PDF查看器 -->
-                                <iframe src="assets/chapter4/ppt/lecture.pdf" 
-                                        title="物理层基础PPT" 
-                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                                <div class="pdf-container" data-src="assets/chapter4/ppt/lecture.pdf"></div>
                             </div>
                             <div class="flex justify-end">
                                 <a href="assets/chapter4/ppt/lecture.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -1028,9 +1019,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">4.1 物理层基础 - 习题</h4>
                             <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                 <!-- PDF查看器 -->
-                                <iframe src="assets/chapter4/ppt/exercise.pdf" 
-                                        title="物理层基础习题PPT" 
-                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                                <div class="pdf-container" data-src="assets/chapter4/ppt/exercise.pdf"></div>
                             </div>
                             <div class="flex justify-end">
                                 <a href="assets/chapter4/ppt/exercise.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -1071,9 +1060,7 @@
                                 <h4 class="font-medium text-gray-800 mb-3">第四章 作业</h4>
                                 <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                     <!-- PDF查看器 -->
-                                    <iframe src="assets/chapter4/ppt/homework.pdf" 
-                                            title="第四章作业PPT" 
-                                            class="w-full h-[300px] rounded-lg border border-gray-200"></iframe>
+                                    <div class="pdf-container" data-src="assets/chapter4/ppt/homework.pdf"></div>
                                 </div>
                                 <div class="flex justify-end space-x-3">
                                     <a href="assets/chapter4/ppt/homework.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -1145,9 +1132,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">5.1 网络层基础</h4>
                             <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                 <!-- PDF查看器 -->
-                                <iframe src="assets/chapter5/ppt/lecture.pdf" 
-                                        title="网络层基础PPT" 
-                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                                <div class="pdf-container" data-src="assets/chapter5/ppt/lecture.pdf"></div>
                             </div>
                             <div class="flex justify-end">
                                 <a href="assets/chapter5/ppt/lecture.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -1192,9 +1177,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">5.1 网络层基础 - 习题</h4>
                             <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                 <!-- PDF查看器 -->
-                                <iframe src="assets/chapter5/ppt/exercise.pdf" 
-                                        title="网络层基础习题PPT" 
-                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                                <div class="pdf-container" data-src="assets/chapter5/ppt/exercise.pdf"></div>
                             </div>
                             <div class="flex justify-end">
                                 <a href="assets/chapter5/ppt/exercise.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -1250,9 +1233,7 @@
                                 <h4 class="font-medium text-gray-800 mb-3">第五章 作业</h4>
                                 <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                     <!-- PDF查看器 -->
-                                    <iframe src="assets/chapter5/ppt/homework.pdf" 
-                                            title="第五章作业PPT" 
-                                            class="w-full h-[300px] rounded-lg border border-gray-200"></iframe>
+                                    <div class="pdf-container" data-src="assets/chapter5/ppt/homework.pdf"></div>
                                 </div>
                                 <div class="flex justify-end space-x-3">
                                     <a href="assets/chapter5/ppt/homework.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -1324,9 +1305,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">6.1 TCP协议</h4>
                             <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                 <!-- PDF查看器 -->
-                                <iframe src="assets/chapter6/ppt/lecture.pdf" 
-                                        title="TCP协议PPT" 
-                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                                <div class="pdf-container" data-src="assets/chapter6/ppt/lecture.pdf"></div>
                             </div>
                             <div class="flex justify-end">
                                 <a href="assets/chapter6/ppt/lecture.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -1371,9 +1350,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">6.1 TCP协议 - 习题</h4>
                             <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                 <!-- PDF查看器 -->
-                                <iframe src="assets/chapter6/ppt/exercise.pdf" 
-                                        title="TCP协议习题PPT" 
-                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                                <div class="pdf-container" data-src="assets/chapter6/ppt/exercise.pdf"></div>
                             </div>
                             <div class="flex justify-end">
                                 <a href="assets/chapter6/ppt/exercise.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -1414,9 +1391,7 @@
                                 <h4 class="font-medium text-gray-800 mb-3">第六章 作业</h4>
                                 <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                     <!-- PDF查看器 -->
-                                    <iframe src="assets/chapter6/ppt/homework.pdf" 
-                                            title="第六章作业PPT" 
-                                            class="w-full h-[300px] rounded-lg border border-gray-200"></iframe>
+                                    <div class="pdf-container" data-src="assets/chapter6/ppt/homework.pdf"></div>
                                 </div>
                                 <div class="flex justify-end space-x-3">
                                     <a href="assets/chapter6/ppt/homework.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -1497,9 +1472,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">7.1 HTTP协议</h4>
                             <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                 <!-- PDF查看器 -->
-                                <iframe src="assets/chapter7/ppt/lecture.pdf" 
-                                        title="HTTP协议PPT" 
-                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                                <div class="pdf-container" data-src="assets/chapter7/ppt/lecture.pdf"></div>
                             </div>
                             <div class="flex justify-end">
                                 <a href="assets/chapter7/ppt/lecture.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -1544,9 +1517,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">7.1 HTTP协议 - 习题</h4>
                             <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                 <!-- PDF查看器 -->
-                                <iframe src="assets/chapter7/ppt/exercise.pdf" 
-                                        title="HTTP协议习题PPT" 
-                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                                <div class="pdf-container" data-src="assets/chapter7/ppt/exercise.pdf"></div>
                             </div>
                             <div class="flex justify-end">
                                 <a href="assets/chapter7/ppt/exercise.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -1587,9 +1558,7 @@
                                 <h4 class="font-medium text-gray-800 mb-3">第七章 作业</h4>
                                 <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                     <!-- PDF查看器 -->
-                                    <iframe src="assets/chapter7/ppt/homework.pdf" 
-                                            title="第七章作业PPT" 
-                                            class="w-full h-[300px] rounded-lg border border-gray-200"></iframe>
+                                    <div class="pdf-container" data-src="assets/chapter7/ppt/homework.pdf"></div>
                                 </div>
                                 <div class="flex justify-end space-x-3">
                                     <a href="assets/chapter7/ppt/homework.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -1661,9 +1630,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">8.1 网络安全基础</h4>
                             <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                 <!-- PDF查看器 -->
-                                <iframe src="assets/chapter8/ppt/lecture.pdf" 
-                                        title="网络安全基础PPT" 
-                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                                <div class="pdf-container" data-src="assets/chapter8/ppt/lecture.pdf"></div>
                             </div>
                             <div class="flex justify-end">
                                 <a href="assets/chapter8/ppt/lecture.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -1708,9 +1675,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">8.1 网络安全基础 - 习题</h4>
                             <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                 <!-- PDF查看器 -->
-                                <iframe src="assets/chapter8/ppt/exercise.pdf" 
-                                        title="网络安全基础习题PPT" 
-                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                                <div class="pdf-container" data-src="assets/chapter8/ppt/exercise.pdf"></div>
                             </div>
                             <div class="flex justify-end">
                                 <a href="assets/chapter8/ppt/exercise.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -1751,9 +1716,7 @@
                                 <h4 class="font-medium text-gray-800 mb-3">第八章 作业</h4>
                                 <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                     <!-- PDF查看器 -->
-                                    <iframe src="assets/chapter8/ppt/homework.pdf" 
-                                            title="第八章作业PPT" 
-                                            class="w-full h-[300px] rounded-lg border border-gray-200"></iframe>
+                                    <div class="pdf-container" data-src="assets/chapter8/ppt/homework.pdf"></div>
                                 </div>
                                 <div class="flex justify-end space-x-3">
                                     <a href="assets/chapter8/ppt/homework.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -1825,9 +1788,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">9.1 网络管理概述</h4>
                             <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                 <!-- PDF查看器 -->
-                                <iframe src="assets/chapter9/ppt/lecture.pdf" 
-                                        title="网络管理概述PPT" 
-                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                                <div class="pdf-container" data-src="assets/chapter9/ppt/lecture.pdf"></div>
                             </div>
                             <div class="flex justify-end">
                                 <a href="assets/chapter9/ppt/lecture.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -1872,9 +1833,7 @@
                             <h4 class="font-medium text-gray-800 mb-3">9.1 网络管理概述 - 习题</h4>
                             <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                 <!-- PDF查看器 -->
-                                <iframe src="assets/chapter9/ppt/exercise.pdf" 
-                                        title="网络管理概述习题PPT" 
-                                        class="w-full h-[500px] rounded-lg border border-gray-200"></iframe>
+                                <div class="pdf-container" data-src="assets/chapter9/ppt/exercise.pdf"></div>
                             </div>
                             <div class="flex justify-end">
                                 <a href="assets/chapter9/ppt/exercise.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -1915,9 +1874,7 @@
                                 <h4 class="font-medium text-gray-800 mb-3">第九章 作业</h4>
                                 <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
                                     <!-- PDF查看器 -->
-                                    <iframe src="assets/chapter9/ppt/homework.pdf" 
-                                            title="第九章作业PPT" 
-                                            class="w-full h-[300px] rounded-lg border border-gray-200"></iframe>
+                                    <div class="pdf-container" data-src="assets/chapter9/ppt/homework.pdf"></div>
                                 </div>
                                 <div class="flex justify-end space-x-3">
                                     <a href="assets/chapter9/ppt/homework.pdf" class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300 flex items-center" download>
@@ -2202,6 +2159,144 @@
                 });
             });
 
+            // PDF.js查看器初始化
+            function initPdfViewers() {
+                const pdfContainers = document.querySelectorAll('.pdf-container[data-src]');
+                
+                pdfContainers.forEach(container => {
+                    const pdfUrl = container.dataset.src;
+                    const containerId = 'pdf-' + Math.random().toString(36).substr(2, 9);
+                    container.id = containerId;
+                    
+                    // 清除容器内容
+                    container.innerHTML = '';
+                    
+                    // 添加加载指示器
+                    const loadingIndicator = document.createElement('div');
+                    loadingIndicator.className = 'loading-indicator flex justify-center items-center p-8';
+                    loadingIndicator.innerHTML = '<i class="fa fa-spinner fa-spin text-primary text-2xl"></i><span class="ml-2">加载PDF中...</span>';
+                    container.appendChild(loadingIndicator);
+                    
+                    // 设置PDF.js工作器
+                    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+                    
+                    // 获取PDF文档
+                    const loadingTask = pdfjsLib.getDocument({
+                        url: pdfUrl,
+                        cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.4.120/cmaps/',
+                        cMapPacked: true
+                    });
+                    
+                    loadingTask.promise.then(function(pdf) {
+                        // 移除加载指示器
+                        loadingIndicator.remove();
+                        
+                        // 初始化页面
+                        let currentPage = 1;
+                        const totalPages = pdf.numPages;
+                        
+                        // 创建画布容器
+                        const canvasContainer = document.createElement('div');
+                        canvasContainer.className = 'canvas-container';
+                        container.appendChild(canvasContainer);
+                        
+                        // 创建控制栏
+                        const controls = document.createElement('div');
+                        controls.className = 'pdf-controls';
+                        
+                        // 上一页按钮
+                        const prevBtn = document.createElement('button');
+                        prevBtn.className = 'pdf-btn';
+                        prevBtn.innerHTML = '<i class="fa fa-chevron-left"></i> 上一页';
+                        prevBtn.disabled = currentPage === 1;
+                        prevBtn.addEventListener('click', function() {
+                            if (currentPage > 1) {
+                                currentPage--;
+                                renderPage(currentPage);
+                                updateControls();
+                            }
+                        });
+                        
+                        // 页码信息
+                        const pageInfo = document.createElement('div');
+                        pageInfo.className = 'pdf-page-info';
+                        
+                        // 下一页按钮
+                        const nextBtn = document.createElement('button');
+                        nextBtn.className = 'pdf-btn';
+                        nextBtn.innerHTML = '下一页 <i class="fa fa-chevron-right"></i>';
+                        nextBtn.disabled = currentPage === totalPages;
+                        nextBtn.addEventListener('click', function() {
+                            if (currentPage < totalPages) {
+                                currentPage++;
+                                renderPage(currentPage);
+                                updateControls();
+                            }
+                        });
+                        
+                        // 组装控制栏
+                        controls.appendChild(prevBtn);
+                        controls.appendChild(pageInfo);
+                        controls.appendChild(nextBtn);
+                        container.appendChild(controls);
+                        
+                        // 渲染页面
+                        function renderPage(pageNum) {
+                            pdf.getPage(pageNum).then(function(page) {
+                                // 清除画布容器
+                                canvasContainer.innerHTML = '';
+                                
+                                // 设置缩放比例
+                                const scale = 1.2;
+                                const viewport = page.getViewport({ scale: scale });
+                                
+                                // 创建画布
+                                const canvas = document.createElement('canvas');
+                                canvas.className = 'pdf-canvas';
+                                canvasContainer.appendChild(canvas);
+                                
+                                const context = canvas.getContext('2d');
+                                canvas.height = viewport.height;
+                                canvas.width = viewport.width;
+                                
+                                // 调整容器高度
+                                container.style.minHeight = (viewport.height + 80) + 'px';
+                                
+                                // 渲染PDF页面
+                                const renderContext = {
+                                    canvasContext: context,
+                                    viewport: viewport
+                                };
+                                
+                                const renderTask = page.render(renderContext);
+                                renderTask.promise.then(function() {
+                                    // 渲染完成
+                                });
+                            });
+                        }
+                        
+                        // 更新控制栏
+                        function updateControls() {
+                            pageInfo.textContent = `第 ${currentPage} 页，共 ${totalPages} 页`;
+                            prevBtn.disabled = currentPage === 1;
+                            nextBtn.disabled = currentPage === totalPages;
+                        }
+                        
+                        // 初始渲染第一页
+                        renderPage(currentPage);
+                        updateControls();
+                        
+                    }).catch(function(error) {
+                        // 加载失败
+                        loadingIndicator.innerHTML = '<i class="fa fa-exclamation-circle text-red-500 text-2xl"></i><span class="ml-2">PDF加载失败</span>';
+                        console.error('PDF加载错误:', error);
+                    });
+                });
+            }
+            
+            // 初始化PDF查看器
+            initPdfViewers();
+            
             // 章节内容动画
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
