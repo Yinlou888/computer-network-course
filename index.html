@@ -2159,11 +2159,233 @@
                 });
             });
 
-            // PDF.js查看器初始化
+            // PDF文档缓存
+            const pdfCache = new Map();
+            
+            // 检测设备类型
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            // 获取适合设备的渲染参数
+            function getRenderParams() {
+                return {
+                    scale: isMobile ? 0.9 : 1.2, // 移动端使用更小的缩放比例
+                    timeout: isMobile ? 30000 : 60000, // 移动端更长的超时时间
+                    maxRetries: isMobile ? 3 : 2 // 移动端更多的重试次数
+                };
+            }
+            
+            // PDF.js查看器初始化 - 单个容器
+            function initPdfViewer(container) {
+                const pdfUrl = container.dataset.src;
+                const containerId = 'pdf-' + Math.random().toString(36).substr(2, 9);
+                container.id = containerId;
+                
+                // 清除容器内容
+                container.innerHTML = '';
+                
+                // 添加加载指示器
+                const loadingIndicator = document.createElement('div');
+                loadingIndicator.className = 'loading-indicator flex justify-center items-center p-8';
+                loadingIndicator.innerHTML = '<i class="fa fa-spinner fa-spin text-primary text-2xl"></i><span class="ml-2">加载PDF中...</span>';
+                container.appendChild(loadingIndicator);
+                
+                // 检查缓存
+                if (pdfCache.has(pdfUrl)) {
+                    const cachedPdf = pdfCache.get(pdfUrl);
+                    renderPdfFromCache(container, cachedPdf, loadingIndicator);
+                    return;
+                }
+                
+                // 设置PDF.js工作器
+                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+                
+                // 获取PDF文档
+                const renderParams = getRenderParams();
+                const loadingTask = pdfjsLib.getDocument({
+                    url: pdfUrl,
+                    cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.4.120/cmaps/',
+                    cMapPacked: true,
+                    timeout: renderParams.timeout
+                });
+                
+                let retryCount = 0;
+                
+                function loadPdf() {
+                    loadingTask.promise.then(function(pdf) {
+                        // 缓存PDF文档
+                        pdfCache.set(pdfUrl, pdf);
+                        
+                        // 渲染PDF
+                        renderPdfFromCache(container, pdf, loadingIndicator);
+                        
+                    }).catch(function(error) {
+                        console.error('PDF加载错误:', error);
+                        
+                        // 重试机制
+                        if (retryCount < renderParams.maxRetries) {
+                            retryCount++;
+                            loadingIndicator.innerHTML = `<i class="fa fa-spinner fa-spin text-primary text-2xl"></i><span class="ml-2">加载失败，正在重试(${retryCount}/${renderParams.maxRetries})...</span>`;
+                            setTimeout(loadPdf, 2000);
+                            return;
+                        }
+                        
+                        // 加载失败
+                        loadingIndicator.innerHTML = '<i class="fa fa-exclamation-circle text-red-500 text-2xl"></i><span class="ml-2">PDF加载失败</span>';
+                        
+                        // 添加重试按钮
+                        const retryButton = document.createElement('button');
+                        retryButton.className = 'mt-4 bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-all-300';
+                        retryButton.textContent = '重试';
+                        retryButton.addEventListener('click', function() {
+                            retryCount = 0;
+                            loadingIndicator.innerHTML = '<i class="fa fa-spinner fa-spin text-primary text-2xl"></i><span class="ml-2">加载PDF中...</span>';
+                            loadPdf();
+                        });
+                        loadingIndicator.appendChild(retryButton);
+                    });
+                }
+                
+                // 开始加载
+                loadPdf();
+            }
+            
+            // 从缓存渲染PDF
+            function renderPdfFromCache(container, pdf, loadingIndicator) {
+                // 移除加载指示器
+                loadingIndicator.remove();
+                
+                // 初始化页面
+                let currentPage = 1;
+                const totalPages = pdf.numPages;
+                
+                // 创建画布容器
+                const canvasContainer = document.createElement('div');
+                canvasContainer.className = 'canvas-container';
+                container.appendChild(canvasContainer);
+                
+                // 创建控制栏
+                const controls = document.createElement('div');
+                controls.className = 'pdf-controls';
+                
+                // 上一页按钮
+                const prevBtn = document.createElement('button');
+                prevBtn.className = 'pdf-btn';
+                prevBtn.innerHTML = '<i class="fa fa-chevron-left"></i> 上一页';
+                prevBtn.disabled = currentPage === 1;
+                prevBtn.addEventListener('click', function() {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        renderPage(currentPage);
+                        updateControls();
+                    }
+                });
+                
+                // 页码信息
+                const pageInfo = document.createElement('div');
+                pageInfo.className = 'pdf-page-info';
+                
+                // 下一页按钮
+                const nextBtn = document.createElement('button');
+                nextBtn.className = 'pdf-btn';
+                nextBtn.innerHTML = '下一页 <i class="fa fa-chevron-right"></i>';
+                nextBtn.disabled = currentPage === totalPages;
+                nextBtn.addEventListener('click', function() {
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        renderPage(currentPage);
+                        updateControls();
+                    }
+                });
+                
+                // 组装控制栏
+                controls.appendChild(prevBtn);
+                controls.appendChild(pageInfo);
+                controls.appendChild(nextBtn);
+                container.appendChild(controls);
+                
+                // 渲染页面
+                function renderPage(pageNum) {
+                    pdf.getPage(pageNum).then(function(page) {
+                        // 清除画布容器
+                        canvasContainer.innerHTML = '';
+                        
+                        // 设置渲染参数
+                        const renderParams = getRenderParams();
+                        const viewport = page.getViewport({ scale: renderParams.scale });
+                        
+                        // 创建画布
+                        const canvas = document.createElement('canvas');
+                        canvas.className = 'pdf-canvas';
+                        canvasContainer.appendChild(canvas);
+                        
+                        const context = canvas.getContext('2d');
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+                        
+                        // 调整容器高度
+                        container.style.minHeight = (viewport.height + 80) + 'px';
+                        
+                        // 渲染PDF页面
+                        const renderContext = {
+                            canvasContext: context,
+                            viewport: viewport
+                        };
+                        
+                        const renderTask = page.render(renderContext);
+                        renderTask.promise.then(function() {
+                            // 渲染完成
+                        });
+                    });
+                }
+                
+                // 更新控制栏
+                function updateControls() {
+                    pageInfo.textContent = `第 ${currentPage} 页，共 ${totalPages} 页`;
+                    prevBtn.disabled = currentPage === 1;
+                    nextBtn.disabled = currentPage === totalPages;
+                }
+                
+                // 初始渲染第一页
+                renderPage(currentPage);
+                updateControls();
+            }
+            
+            // PDF.js查看器初始化 - 使用Intersection Observer延迟加载
             function initPdfViewers() {
                 const pdfContainers = document.querySelectorAll('.pdf-container[data-src]');
                 
+                // 创建Intersection Observer
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // 当容器进入视口时初始化PDF查看器
+                            initPdfViewer(entry.target);
+                            // 停止观察该容器
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, {
+                    threshold: 0.1, // 当容器10%进入视口时触发
+                    rootMargin: '50px' // 提前50px开始加载
+                });
+                
+                // 观察所有PDF容器
                 pdfContainers.forEach(container => {
+                    observer.observe(container);
+                });
+                
+                // 优先加载当前章节的PDF（如果在视口中）
+                const currentChapter = document.querySelector('.chapter-content');
+                if (currentChapter) {
+                    const currentPdfContainers = currentChapter.querySelectorAll('.pdf-container[data-src]');
+                    currentPdfContainers.forEach(container => {
+                        initPdfViewer(container);
+                        observer.unobserve(container);
+                    });
+                }
+                
+
+                // pdfContainers.forEach(container => {
                     const pdfUrl = container.dataset.src;
                     const containerId = 'pdf-' + Math.random().toString(36).substr(2, 9);
                     container.id = containerId;
