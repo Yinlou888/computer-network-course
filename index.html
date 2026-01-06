@@ -195,9 +195,61 @@
             }
             
             /* 确保所有元素在移动端都能正常显示 */
-            img, iframe, video {
+            img, video {
                 max-width: 100%;
                 height: auto;
+            }
+            
+            /* 优化PDF查看器在移动端的显示 */
+            iframe {
+                max-width: 100%;
+                display: block;
+                margin: 0 auto;
+                border: none;
+                pointer-events: auto;
+            }
+            
+            /* 为PDF iframe设置合适的移动端高度 */
+            iframe[src$=".pdf"] {
+                height: 600px;
+                min-height: 500px;
+                width: 100%;
+                max-width: 100%;
+                position: relative;
+                z-index: 1;
+                background-color: white;
+            }
+            
+            /* 确保PDF容器正常显示 */
+            div:has(> iframe[src$=".pdf"]) {
+                position: relative;
+                width: 100%;
+                height: auto;
+                overflow: hidden;
+                margin-bottom: 1rem;
+                padding: 0;
+            }
+            
+            /* 优化PDF下载链接样式，确保只有点击才会触发下载 */
+            a[href$=".pdf"][download] {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                user-select: none;
+                -webkit-tap-highlight-color: transparent;
+                position: relative;
+                z-index: 2;
+            }
+            
+            /* 禁止自动触发下载 */
+            a[href$=".pdf"][download]:not(:active) {
+                pointer-events: auto;
+            }
+            
+            /* 优化视频播放器在移动端的显示 */
+            .aspect-w-16 {
+                margin-bottom: 1rem;
             }
             
             /* 优化移动端的文本行高 */
@@ -241,7 +293,7 @@
     <!-- 主内容区 -->
     <main class="container mx-auto px-4 py-6 flex flex-col md:flex-row gap-6">
         <!-- 侧边栏导航 -->
-        <aside id="sidebar" class="w-full md:w-64 bg-white rounded-lg shadow-card p-4 md:sticky md:top-20 md:self-start transition-all-300 transform md:translate-x-0 -translate-x-full md:opacity-100 opacity-0 fixed md:relative top-0 left-0 h-full z-40 overflow-y-auto">
+        <aside id="sidebar" class="w-full md:w-64 bg-white rounded-lg shadow-card p-4 md:sticky md:top-20 md:self-start transition-all-300 transform md:translate-x-0 -translate-x-full md:opacity-100 opacity-0 fixed md:relative top-0 left-0 h-full md:h-auto max-h-[calc(100vh-6rem)] z-40 overflow-y-auto">
             <div class="flex justify-between items-center mb-6 md:hidden">
                 <h2 class="text-lg font-bold text-primary">章节导航</h2>
                 <button id="close-sidebar" class="p-2 rounded-full hover:bg-gray-100">
@@ -375,11 +427,11 @@
                         <div class="flex items-center space-x-4 mt-4 sm:mt-0">
                             <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
                                 <i class="fa fa-video-camera mr-2"></i>
-                                <span>3个视频</span>
+                                <span>视频</span>
                             </span>
                             <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
                                 <i class="fa fa-file-powerpoint-o mr-2"></i>
-                                <span>3个PPT</span>
+                                <span>PPT</span>
                             </span>
                         </div>
                     </div>
@@ -397,21 +449,19 @@
                             <div class="aspect-w-16 aspect-h-9 mb-4 video-container">
                                 <div class="relative bg-gray-900 rounded-lg overflow-hidden">
                                     <iframe 
-                                        class="w-full h-full" 
-                                        src="https://player.bilibili.com/player.html?aid=115840787678596&bvid=BV1q4ixB4E82&cid=35198927842&p=1&isOutside=true&danmaku=0" 
+                                        class="w-full h-full object-contain" 
+                                        src="//player.bilibili.com/player.html?isOutside=true&aid=115840787678596&bvid=BV1q4ixB4E82&cid=35198927842&p=1" 
                                         scrolling="no" 
                                         border="0" 
                                         frameborder="no" 
                                         framespacing="0" 
                                         allowfullscreen="true"
                                         title="1.1 计算机网络概述"
-                                        referrerpolicy="no-referrer-when-downgrade"
                                     ></iframe>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center text-sm text-gray-500">
-                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 25:30</span>
                                     <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
                                 </div>
                                 <button class="text-primary hover:text-primary-dark transition-all-300">
@@ -459,7 +509,6 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center text-sm text-gray-500">
-                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 15:45</span>
                                     <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
                                 </div>
                                 <button class="text-primary hover:text-primary-dark transition-all-300">
@@ -509,7 +558,6 @@
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <div class="flex items-center text-sm text-gray-500">
-                                        <span><i class="fa fa-clock-o mr-1"></i> 20:15</span>
                                     </div>
                                     <button class="text-primary hover:text-primary-dark transition-all-300">
                                         <i class="fa fa-expand mr-1"></i> 全屏
@@ -552,11 +600,11 @@
                         <div class="flex items-center space-x-4 mt-4 sm:mt-0">
                             <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
                                 <i class="fa fa-video-camera mr-2"></i>
-                                <span>3个视频</span>
+                                <span>视频</span>
                             </span>
                             <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
                                 <i class="fa fa-file-powerpoint-o mr-2"></i>
-                                <span>3个PPT</span>
+                                <span>PPT</span>
                             </span>
                         </div>
                     </div>
@@ -587,7 +635,6 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center text-sm text-gray-500">
-                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 28:15</span>
                                     <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
                                 </div>
                                 <button class="text-primary hover:text-primary-dark transition-all-300">
@@ -635,7 +682,6 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center text-sm text-gray-500">
-                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 18:20</span>
                                     <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
                                 </div>
                                 <button class="text-primary hover:text-primary-dark transition-all-300">
@@ -685,7 +731,6 @@
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <div class="flex items-center text-sm text-gray-500">
-                                        <span><i class="fa fa-clock-o mr-1"></i> 22:30</span>
                                     </div>
                                     <button class="text-primary hover:text-primary-dark transition-all-300">
                                         <i class="fa fa-expand mr-1"></i> 全屏
@@ -728,11 +773,11 @@
                         <div class="flex items-center space-x-4 mt-4 sm:mt-0">
                             <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
                                 <i class="fa fa-video-camera mr-2"></i>
-                                <span>3个视频</span>
+                                <span>视频</span>
                             </span>
                             <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
                                 <i class="fa fa-file-powerpoint-o mr-2"></i>
-                                <span>3个PPT</span>
+                                <span>PPT</span>
                             </span>
                         </div>
                     </div>
@@ -754,7 +799,6 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center text-sm text-gray-500">
-                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 30:20</span>
                                     <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
                                 </div>
                                 <button class="text-primary hover:text-primary-dark transition-all-300">
@@ -802,7 +846,6 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center text-sm text-gray-500">
-                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 17:30</span>
                                     <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
                                 </div>
                                 <button class="text-primary hover:text-primary-dark transition-all-300">
@@ -852,7 +895,6 @@
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <div class="flex items-center text-sm text-gray-500">
-                                        <span><i class="fa fa-clock-o mr-1"></i> 23:45</span>
                                     </div>
                                     <button class="text-primary hover:text-primary-dark transition-all-300">
                                         <i class="fa fa-expand mr-1"></i> 全屏
@@ -895,11 +937,11 @@
                         <div class="flex items-center space-x-4 mt-4 sm:mt-0">
                             <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
                                 <i class="fa fa-video-camera mr-2"></i>
-                                <span>3个视频</span>
+                                <span>视频</span>
                             </span>
                             <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
                                 <i class="fa fa-file-powerpoint-o mr-2"></i>
-                                <span>3个PPT</span>
+                                <span>PPT</span>
                             </span>
                         </div>
                     </div>
@@ -921,7 +963,6 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center text-sm text-gray-500">
-                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 27:15</span>
                                     <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
                                 </div>
                                 <button class="text-primary hover:text-primary-dark transition-all-300">
@@ -969,7 +1010,6 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center text-sm text-gray-500">
-                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 16:20</span>
                                     <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
                                 </div>
                                 <button class="text-primary hover:text-primary-dark transition-all-300">
@@ -1019,7 +1059,6 @@
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <div class="flex items-center text-sm text-gray-500">
-                                        <span><i class="fa fa-clock-o mr-1"></i> 21:30</span>
                                     </div>
                                     <button class="text-primary hover:text-primary-dark transition-all-300">
                                         <i class="fa fa-expand mr-1"></i> 全屏
@@ -1062,11 +1101,11 @@
                         <div class="flex items-center space-x-4 mt-4 sm:mt-0">
                             <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
                                 <i class="fa fa-video-camera mr-2"></i>
-                                <span>3个视频</span>
+                                <span>视频</span>
                             </span>
                             <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
                                 <i class="fa fa-file-powerpoint-o mr-2"></i>
-                                <span>3个PPT</span>
+                                <span>PPT</span>
                             </span>
                         </div>
                     </div>
@@ -1088,7 +1127,6 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center text-sm text-gray-500">
-                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 32:40</span>
                                     <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
                                 </div>
                                 <button class="text-primary hover:text-primary-dark transition-all-300">
@@ -1136,7 +1174,6 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center text-sm text-gray-500">
-                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 18:45</span>
                                     <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
                                 </div>
                                 <button class="text-primary hover:text-primary-dark transition-all-300">
@@ -1201,7 +1238,6 @@
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <div class="flex items-center text-sm text-gray-500">
-                                        <span><i class="fa fa-clock-o mr-1"></i> 24:15</span>
                                     </div>
                                     <button class="text-primary hover:text-primary-dark transition-all-300">
                                         <i class="fa fa-expand mr-1"></i> 全屏
@@ -1244,11 +1280,11 @@
                         <div class="flex items-center space-x-4 mt-4 sm:mt-0">
                             <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
                                 <i class="fa fa-video-camera mr-2"></i>
-                                <span>3个视频</span>
+                                <span>视频</span>
                             </span>
                             <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
                                 <i class="fa fa-file-powerpoint-o mr-2"></i>
-                                <span>3个PPT</span>
+                                <span>PPT</span>
                             </span>
                         </div>
                     </div>
@@ -1270,7 +1306,6 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center text-sm text-gray-500">
-                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 35:25</span>
                                     <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
                                 </div>
                                 <button class="text-primary hover:text-primary-dark transition-all-300">
@@ -1318,7 +1353,6 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center text-sm text-gray-500">
-                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 20:10</span>
                                     <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
                                 </div>
                                 <button class="text-primary hover:text-primary-dark transition-all-300">
@@ -1368,7 +1402,6 @@
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <div class="flex items-center text-sm text-gray-500">
-                                        <span><i class="fa fa-clock-o mr-1"></i> 26:30</span>
                                     </div>
                                     <button class="text-primary hover:text-primary-dark transition-all-300">
                                         <i class="fa fa-expand mr-1"></i> 全屏
@@ -1411,11 +1444,11 @@
                         <div class="flex items-center space-x-4 mt-4 sm:mt-0">
                             <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
                                 <i class="fa fa-video-camera mr-2"></i>
-                                <span>3个视频</span>
+                                <span>视频</span>
                             </span>
                             <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
                                 <i class="fa fa-file-powerpoint-o mr-2"></i>
-                                <span>3个PPT</span>
+                                <span>PPT</span>
                             </span>
                         </div>
                     </div>
@@ -1446,7 +1479,6 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center text-sm text-gray-500">
-                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 33:15</span>
                                     <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
                                 </div>
                                 <button class="text-primary hover:text-primary-dark transition-all-300">
@@ -1494,7 +1526,6 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center text-sm text-gray-500">
-                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 19:25</span>
                                     <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
                                 </div>
                                 <button class="text-primary hover:text-primary-dark transition-all-300">
@@ -1544,7 +1575,6 @@
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <div class="flex items-center text-sm text-gray-500">
-                                        <span><i class="fa fa-clock-o mr-1"></i> 25:45</span>
                                     </div>
                                     <button class="text-primary hover:text-primary-dark transition-all-300">
                                         <i class="fa fa-expand mr-1"></i> 全屏
@@ -1587,11 +1617,11 @@
                         <div class="flex items-center space-x-4 mt-4 sm:mt-0">
                             <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
                                 <i class="fa fa-video-camera mr-2"></i>
-                                <span>3个视频</span>
+                                <span>视频</span>
                             </span>
                             <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
                                 <i class="fa fa-file-powerpoint-o mr-2"></i>
-                                <span>3个PPT</span>
+                                <span>PPT</span>
                             </span>
                         </div>
                     </div>
@@ -1613,7 +1643,6 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center text-sm text-gray-500">
-                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 31:20</span>
                                     <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
                                 </div>
                                 <button class="text-primary hover:text-primary-dark transition-all-300">
@@ -1661,7 +1690,6 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center text-sm text-gray-500">
-                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 18:15</span>
                                     <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
                                 </div>
                                 <button class="text-primary hover:text-primary-dark transition-all-300">
@@ -1711,7 +1739,6 @@
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <div class="flex items-center text-sm text-gray-500">
-                                        <span><i class="fa fa-clock-o mr-1"></i> 24:30</span>
                                     </div>
                                     <button class="text-primary hover:text-primary-dark transition-all-300">
                                         <i class="fa fa-expand mr-1"></i> 全屏
@@ -1754,11 +1781,11 @@
                         <div class="flex items-center space-x-4 mt-4 sm:mt-0">
                             <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
                                 <i class="fa fa-video-camera mr-2"></i>
-                                <span>3个视频</span>
+                                <span>视频</span>
                             </span>
                             <span class="flex items-center bg-white/10 px-3 py-1 rounded-full">
                                 <i class="fa fa-file-powerpoint-o mr-2"></i>
-                                <span>3个PPT</span>
+                                <span>PPT</span>
                             </span>
                         </div>
                     </div>
@@ -1780,7 +1807,6 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center text-sm text-gray-500">
-                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 29:45</span>
                                     <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
                                 </div>
                                 <button class="text-primary hover:text-primary-dark transition-all-300">
@@ -1828,7 +1854,6 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center text-sm text-gray-500">
-                                    <span class="mr-4"><i class="fa fa-clock-o mr-1"></i> 16:50</span>
                                     <span><i class="fa fa-calendar mr-1"></i> 2025-12-31</span>
                                 </div>
                                 <button class="text-primary hover:text-primary-dark transition-all-300">
@@ -1878,7 +1903,6 @@
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <div class="flex items-center text-sm text-gray-500">
-                                        <span><i class="fa fa-clock-o mr-1"></i> 22:45</span>
                                     </div>
                                     <button class="text-primary hover:text-primary-dark transition-all-300">
                                         <i class="fa fa-expand mr-1"></i> 全屏
@@ -1917,7 +1941,7 @@
     </button>
 
     <!-- 遮罩层 -->
-    <div id="overlay" class="fixed inset-0 bg-black/50 z-30 hidden md:hidden"></div>
+    <div id="overlay" class="fixed inset-0 bg-black/50 z-30 hidden md:hidden transition-opacity duration-300"></div>
 
     <!-- JavaScript -->
     <script>
@@ -1930,11 +1954,22 @@
             const overlay = document.getElementById('overlay');
             const chapterLinks = document.querySelectorAll('.chapter-link');
 
-            mobileMenuButton.addEventListener('click', function() {
-                sidebar.classList.remove('-translate-x-full', 'opacity-0');
-                overlay.classList.remove('hidden');
-                document.body.classList.add('overflow-hidden');
-            });
+            // 切换侧边栏显示/隐藏状态
+            function toggleSidebar() {
+                if (sidebar.classList.contains('-translate-x-full')) {
+                    // 打开侧边栏
+                    sidebar.classList.remove('-translate-x-full', 'opacity-0');
+                    overlay.classList.remove('hidden');
+                    document.body.classList.add('overflow-hidden');
+                } else {
+                    // 关闭侧边栏
+                    sidebar.classList.add('-translate-x-full', 'opacity-0');
+                    overlay.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                }
+            }
+
+            mobileMenuButton.addEventListener('click', toggleSidebar);
 
             function closeSidebar() {
                 sidebar.classList.add('-translate-x-full', 'opacity-0');
@@ -2003,24 +2038,13 @@
                     
                     if (iframe) {
                         // 确保B站iframe正确显示
-                        iframe.classList.add('w-full', 'h-full');
+                        iframe.classList.add('w-full', 'h-full', 'object-contain');
                         iframe.setAttribute('title', iframe.closest('.bg-gray-50').querySelector('h4').textContent);
                         
                         // 添加必要的B站iframe参数
-                        let src = iframe.src;
-                        // 确保使用完整的https协议
-                        if (!src.startsWith('http')) {
-                            src = 'https:' + src;
+                        if (!iframe.src.includes('isOutside=true')) {
+                            iframe.src += (iframe.src.includes('?') ? '&' : '?') + 'isOutside=true';
                         }
-                        // 添加必要的参数
-                        if (!src.includes('isOutside=true')) {
-                            src += (src.includes('?') ? '&' : '?') + 'isOutside=true';
-                        }
-                        if (!src.includes('danmaku=')) {
-                            src += (src.includes('?') ? '&' : '?') + 'danmaku=0';
-                        }
-                        // 更新iframe的src
-                        iframe.src = src;
                         
                         // 确保iframe允许全屏
                         iframe.setAttribute('allowfullscreen', 'true');
@@ -2028,11 +2052,11 @@
                         iframe.setAttribute('border', '0');
                         iframe.setAttribute('frameborder', 'no');
                         iframe.setAttribute('framespacing', '0');
-                        iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
                         
                         // 确保iframe适应容器大小
                         iframe.style.width = '100%';
                         iframe.style.height = '100%';
+                        iframe.style.objectFit = 'contain';
                     }
                 });
             }
