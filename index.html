@@ -130,6 +130,8 @@
                 overflow: hidden;
                 box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
                 transition: all 0.3s ease;
+                width: 100%;
+                height: 100%;
             }
             .video-container:hover {
                 box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -138,6 +140,25 @@
             .video-container iframe {
                 border-radius: 0.5rem;
                 transition: all 0.3s ease;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            .aspect-w-16 {
+                position: relative;
+                width: 100%;
+            }
+            .aspect-w-16::before {
+                content: "";
+                display: block;
+                padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            }
+            .aspect-w-16 > * {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
             }
             /* 深色模式下的视频容器样式 */
             .dark .video-container {
@@ -678,9 +699,9 @@
                         </h3>
                         <div class="bg-gray-50 rounded-lg p-4">
                             <h4 class="font-medium text-gray-800 mb-3">2.1 物理层 - 习题讲解</h4>
-                            <div class="aspect-w-16 aspect-h-9 mb-4">
-                                <div class="relative bg-gray-900 rounded-lg overflow-hidden">
-                                    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840804455084&bvid=BV1vhixB9Ey7&cid=35199058785&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+                            <div class="aspect-w-16 aspect-h-9 mb-4 video-container">
+                                <div class="relative bg-gray-900 rounded-lg overflow-hidden w-full h-full">
+                                    <iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115840804455084&bvid=BV1vhixB9Ey7&cid=35199058785&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" class="w-full h-full object-cover"></iframe>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center">
@@ -701,7 +722,7 @@
                         </h3>
                         <div class="bg-gray-50 rounded-lg p-4">
                             <h4 class="font-medium text-gray-800 mb-3">2.1 物理层 - 习题</h4>
-                            <div class="mb-4 bg-white rounded-lg shadow-sm overflow-hidden">
+                            <div class="mb-2 bg-white rounded-lg shadow-sm overflow-hidden">
                                 <!-- PDF查看器 -->
                                 <div class="pdf-container" data-src="assets/chapter2/ppt/exercise.pdf"></div>
                             </div>
@@ -2062,8 +2083,15 @@
                                 canvas.height = viewport.height;
                                 canvas.width = viewport.width;
                                 
-                                // 调整容器高度
+                                // 调整canvas容器高度
+                                canvasContainer.style.height = viewport.height + 'px';
+                                canvasContainer.style.minHeight = 'unset';
+                                canvasContainer.style.overflow = 'hidden';
+                                
+                                // 调整PDF容器高度
+                                container.style.height = 'auto';
                                 container.style.minHeight = (viewport.height + 80) + 'px';
+                                container.style.overflow = 'hidden';
                                 
                                 // 渲染PDF页面
                                 const renderContext = {
