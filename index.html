@@ -86,7 +86,9 @@
                 position: relative;
                 width: 100%;
                 height: auto;
-                overflow: hidden;
+                min-height: 300px;
+                max-height: 80vh;
+                overflow-y: auto;
                 border-radius: 0.5rem;
                 box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             }
@@ -95,6 +97,12 @@
                 margin: 0 auto;
                 max-width: 100%;
                 height: auto;
+                transform: translate3d(0, 0, 0);
+            }
+            @media (max-width: 767px) {
+                .pdf-container {
+                    max-height: 70vh;
+                }
             }
             .pdf-controls {
                 display: flex;
@@ -398,10 +406,11 @@
             <div class="relative rounded-xl overflow-hidden mb-8 shadow-lg animate-fade-in">
                 <img src="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/465a7f1b34f14f37853b4b2dfc538300~tplv-a9rns2rl98-image.image?rcl=202601012151187F56926D45664BC69A0D&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1769867506&x-signature=coPGgXT5ofwUFRvr0gpzsJGod%2Fg%3D" 
                      alt="计算机网络技术基础" 
-                     class="w-full h-64 object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
-                    <h1 class="text-3xl md:text-4xl font-bold text-white text-shadow-lg mb-2">计算机网络技术基础</h1>
-                    <p class="text-lg text-white/90 text-shadow">原理 · 协议 · 应用</p>
+                     class="w-full h-48 sm:h-64 object-cover" 
+                     loading="lazy">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-4 sm:p-6">
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white text-shadow-lg mb-2">计算机网络技术基础</h1>
+                    <p class="text-base sm:text-lg text-white/90 text-shadow">原理 · 协议 · 应用</p>
                 </div>
             </div>
 
@@ -2064,14 +2073,27 @@
                         controls.appendChild(nextBtn);
                         container.appendChild(controls);
                         
+                        // 获取响应式缩放比例
+                        function getResponsiveScale() {
+                            const containerWidth = container.clientWidth;
+                            // 根据容器宽度调整缩放比例
+                            if (containerWidth < 480) {
+                                return 0.8; // 移动端
+                            } else if (containerWidth < 768) {
+                                return 1.0; // 平板
+                            } else {
+                                return 1.2; // 桌面
+                            }
+                        }
+                        
                         // 渲染页面
                         function renderPage(pageNum) {
                             pdf.getPage(pageNum).then(function(page) {
                                 // 清除画布容器
                                 canvasContainer.innerHTML = '';
                                 
-                                // 设置缩放比例
-                                const scale = 1.2;
+                                // 获取响应式缩放比例
+                                const scale = getResponsiveScale();
                                 const viewport = page.getViewport({ scale: scale });
                                 
                                 // 创建画布
@@ -2083,15 +2105,16 @@
                                 canvas.height = viewport.height;
                                 canvas.width = viewport.width;
                                 
-                                // 调整canvas容器高度
-                                canvasContainer.style.height = viewport.height + 'px';
+                                // 移除固定高度设置，让容器高度由CSS控制
+                                canvasContainer.style.height = 'auto';
                                 canvasContainer.style.minHeight = 'unset';
                                 canvasContainer.style.overflow = 'hidden';
                                 
-                                // 调整PDF容器高度
+                                // 让PDF容器高度由CSS控制
                                 container.style.height = 'auto';
-                                container.style.minHeight = (viewport.height + 80) + 'px';
-                                container.style.overflow = 'hidden';
+                                container.style.minHeight = 'unset';
+                                container.style.maxHeight = 'unset';
+                                container.style.overflow = 'unset';
                                 
                                 // 渲染PDF页面
                                 const renderContext = {
